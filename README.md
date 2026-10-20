@@ -147,3 +147,17 @@ Run linting and formatting checks:
 uv run ruff check .
 uv run ruff format --check .
 ```
+
+---
+
+## ⚖️ Legal Disclaimer
+
+All *EVE Online* materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Corporation**. 
+
+This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Corporation is implied.
+
+---
+
+## 📄 License
+
+This software and font generation toolkit is distributed under the [MIT License](LICENSE).

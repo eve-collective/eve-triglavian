@@ -76,8 +76,8 @@ class BuildConfig(BaseModel):
     """Configuration options for font and SVG generation."""
 
     stroke_width: float = Field(default=DEFAULT_STROKE_WIDTH, gt=0)
-    svg_dir: Path = Field(default=Path("triglavian_svgs"))
-    ttf_path: Path = Field(default=Path("TriglavianGeometric.ttf"))
+    svg_dir: Path = Field(default=Path("dist/svg"))
+    ttf_path: Path = Field(default=Path("dist/TriglavianGeometric.ttf"))
     export_svg: bool = True
     compile_ttf: bool = True
     font_metadata: FontMetadata = Field(default_factory=FontMetadata)

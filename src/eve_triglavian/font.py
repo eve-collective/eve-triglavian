@@ -57,7 +57,7 @@ def draw_shapely_to_pen(
 
 
 def compile_ttf_font(
-    output_path: str | Path = "TriglavianGeometric.ttf",
+    output_path: str | Path = "dist/TriglavianGeometric.ttf",
     stroke_width: float = DEFAULT_STROKE_WIDTH,
     metadata: FontMetadata | None = None,
 ) -> Path:

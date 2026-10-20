@@ -3,10 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
-dist/
+# Distribution / packaging (Python build artifacts)
 build/
 *.egg-info/
+dist/*.whl
+dist/*.tar.gz
 
 # Environments
 .venv/

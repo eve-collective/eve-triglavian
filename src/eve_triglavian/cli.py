@@ -26,13 +26,13 @@ def build(
     svg: bool = typer.Option(True, "--svg/--no-svg", help="Export standalone SVG files."),
     ttf: bool = typer.Option(True, "--ttf/--no-ttf", help="Compile TrueType font (.ttf)."),
     output_dir: Path = typer.Option(
-        Path("triglavian_svgs"),
+        Path("dist/svg"),
         "--output-dir",
         "-o",
         help="Directory to save exported SVG files.",
     ),
     ttf_path: Path = typer.Option(
-        Path("TriglavianGeometric.ttf"),
+        Path("dist/TriglavianGeometric.ttf"),
         "--ttf-path",
         "-t",
         help="Destination path for compiled .ttf font.",
@@ -106,7 +106,7 @@ def build(
 @app.command("export-svg")
 def export_svg_cmd(
     output_dir: Path = typer.Option(
-        Path("triglavian_svgs"),
+        Path("dist/svg"),
         "--output-dir",
         "-o",
         help="Directory to save exported SVG files.",
@@ -127,7 +127,7 @@ def export_svg_cmd(
 @app.command("compile-ttf")
 def compile_ttf_cmd(
     output: Path = typer.Option(
-        Path("TriglavianGeometric.ttf"),
+        Path("dist/TriglavianGeometric.ttf"),
         "--output",
         "-o",
         help="Path to compiled .ttf font.",

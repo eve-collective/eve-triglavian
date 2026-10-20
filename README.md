@@ -85,17 +85,17 @@ uv sync --all-groups
 The package provides the `eve-triglavian` CLI command (also runnable directly via `uv run`):
 
 ```bash
-# 1. Full Build (Exports 81 SVGs and compiles TriglavianGeometric.ttf)
+# 1. Full Build (Exports 81 SVGs and compiles TrueType font into dist/)
 uv run eve-triglavian build
 
 # Custom options:
 uv run eve-triglavian build --output-dir custom_svgs --ttf-path custom.ttf --stroke-width 50.0
 
-# 2. Export SVGs only
-uv run eve-triglavian export-svg --output-dir ./triglavian_svgs
+# 2. Export SVGs only (defaults to dist/svg/)
+uv run eve-triglavian export-svg
 
-# 3. Compile TTF Font only
-uv run eve-triglavian compile-ttf --output ./TriglavianGeometric.ttf
+# 3. Compile TTF Font only (defaults to dist/TriglavianGeometric.ttf)
+uv run eve-triglavian compile-ttf
 
 # 4. Character Set Overview
 uv run eve-triglavian info
@@ -119,6 +119,9 @@ eve-triglavian/
 ├── pyproject.toml              # Build backend (Hatchling), dependencies, and tool configs
 ├── README.md                   # Typographic documentation and usage instructions
 ├── reference_sheet.png         # Triglavian grapheme reference sheet (Arataka Research Consortium)
+├── dist/                       # Compiled assets distribution
+│   ├── TriglavianGeometric.ttf # Standards-compliant TrueType font
+│   └── svg/                    # 81 standalone geometric SVG glyphs
 ├── src/
 │   └── eve_triglavian/         # Main Python package
 │       ├── __init__.py         # Public exports and version

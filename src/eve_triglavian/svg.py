@@ -48,7 +48,7 @@ def generate_glyph_svg_content(
 
 
 def export_all_svgs(
-    output_dir: str | Path = "triglavian_svgs",
+    output_dir: str | Path = "dist/svg",
     stroke_width: float = DEFAULT_STROKE_WIDTH,
     stroke_color: str = "#FFFFFF",
 ) -> list[Path]:

@@ -29,3 +29,5 @@ Thumbs.db
 # Heavy local AI upscaled assets
 *upscayl*
 
+# Scratch and intermediate artifacts
+scratch/

@@ -1,5 +1,6 @@
-# Node dependencies
+# Node & pnpm dependencies
 node_modules/
+.pnpm-store/
 
 # Production app builds & scratch
 dist-web/

@@ -46,8 +46,8 @@ The Triglavian script is constructed on an **isometric / equilateral triangular 
 git clone https://github.com/pascal/eve-triglavian.git
 cd eve-triglavian
 
-# Install dependencies (Node.js 18+)
-npm install
+# Install dependencies (Node.js 18+ with pnpm)
+pnpm install
 ```
 
 ### Launch the 3D Web Visualizer Studio
@@ -55,7 +55,7 @@ npm install
 Run the interactive local studio with hot module reloading:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open `http://localhost:3000` to inspect any character in 3D, customize extrusion depth and bevels, preview material presets, compose custom sentences, and export assets.
@@ -130,19 +130,19 @@ loader.load('./dist/triglavian.typeface.json', (font) => {
 
 ## 🛠️ CLI Tooling
 
-The package includes a command-line interface executable via `npx`:
+The package includes a command-line interface executable via `pnpm exec` or `npx`:
 
 ```bash
 # Rebuild all 81 SVGs, GLB, OBJ, STL models, and Typeface JSON into dist/
-npm run build:assets
+pnpm build:assets
 # Or via CLI directly:
-npx eve-triglavian build
+pnpm exec eve-triglavian build
 
 # Print SVG markup for any character
-npx eve-triglavian svg A
+pnpm exec eve-triglavian svg A
 
 # Show library metrics and character inventory
-npx eve-triglavian info
+pnpm exec eve-triglavian info
 ```
 
 ---
@@ -190,7 +190,7 @@ eve-triglavian/
 Run the Vitest automated test suite:
 
 ```bash
-npm test
+pnpm test
 ```
 
 The test suite validates:

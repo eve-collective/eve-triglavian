@@ -1,6 +1,7 @@
 {
   "name": "eve-triglavian",
   "version": "0.2.0",
+  "packageManager": "pnpm@11.15.1",
   "description": "Programmatic typography toolkit, 2D vector generator, and 3D geometric meshes for EVE Online Triglavian script",
   "type": "module",
   "main": "./dist/index.cjs",

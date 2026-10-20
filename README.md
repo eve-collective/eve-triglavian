@@ -110,7 +110,7 @@ uv run python -m eve_triglavian
 eve-triglavian/
 ├── pyproject.toml              # Build backend (Hatchling), dependencies, and tool configs
 ├── README.md                   # Typographic documentation and usage instructions
-├── reference_sheet.png         # Original ARC grapheme decoding chart
+├── reference_sheet.png         # Triglavian grapheme reference sheet (Arataka Research Consortium)
 ├── src/
 │   └── eve_triglavian/         # Main Python package
 │       ├── __init__.py         # Public exports and version
@@ -155,6 +155,12 @@ uv run ruff format --check .
 All *EVE Online* materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Corporation**. 
 
 This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Corporation is implied.
+
+---
+
+## 🙏 Credits & Acknowledgments
+
+- **Arataka Research Consortium (ARC):** Sincere credit and gratitude to the Arataka Research Consortium for their groundbreaking decoding work, compilation, and publication of the Triglavian grapheme reference sheet (`reference_sheet.png`, cataloged as `triglavian_grapheme_samples // crossreference TD-1`). This research provided the foundational specimen data and visual reference required to reconstruct these geometric vectors.
 
 ---
 

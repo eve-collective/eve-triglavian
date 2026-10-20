@@ -38,10 +38,10 @@ All 81 characters are constructed by combining five recurring geometric primitiv
 
 ## 🛠️ Methodology & Build Pipelines
 
-### Method 1: Pure Geometric Lattice Synthesis (`generate_triglavian_font.py`)
+### Method 1: Pure Geometric Lattice Synthesis (`eve_triglavian`)
 Standard SVG files support single-line open paths with a visual `stroke-width`, but TrueType (`.ttf`) and OpenType (`.otf`) specifications require **closed, non-overlapping filled contours** with strict winding directions (clockwise for outer contours, counter-clockwise for inner holes in TrueType).
 
-To achieve mathematically crisp glyphs without raster tracing artifacts, `generate_triglavian_font.py` executes a 4-stage pipeline:
+To achieve mathematically crisp glyphs without raster tracing artifacts, `eve_triglavian` executes a 4-stage pipeline:
 1. **Lattice Coordinate Resolution:** Maps each character to a declarative list of open and closed polylines snapped to the $60^\circ$ grid.
 2. **SVG Export:** Emits 81 lightweight, resolution-independent `.svg` files (`stroke-linejoin="miter"`, `stroke-linecap="butt"`) into `./triglavian_svgs/`.
 3. **Mitered Polygon Buffering (Shapely):** Converts each 1D polyline into a 2D polygon by buffering at half the stroke width ($w/2 = 22\text{ UPM}$) using `cap_style=2` (flat) and `join_style=2` (sharp miter). Overlapping strokes within a glyph are merged into a single clean geometry via Boolean union (`shapely.ops.unary_union`), eliminating self-intersecting contours.
@@ -96,10 +96,10 @@ uv run eve-triglavian info
 uv run eve-triglavian inspect A
 ```
 
-You can also run the root entry point script directly:
+You can also run the package directly as a module:
 
 ```bash
-python generate_triglavian_font.py
+uv run python -m eve_triglavian
 ```
 
 ---
@@ -111,10 +111,10 @@ eve-triglavian/
 ├── pyproject.toml              # Build backend (Hatchling), dependencies, and tool configs
 ├── README.md                   # Typographic documentation and usage instructions
 ├── reference_sheet.png         # Original ARC grapheme decoding chart
-├── generate_triglavian_font.py # Backward-compatible root entry point
 ├── src/
 │   └── eve_triglavian/         # Main Python package
 │       ├── __init__.py         # Public exports and version
+│       ├── __main__.py         # Module execution entry point (python -m eve_triglavian)
 │       ├── constants.py        # Equilateral lattice coordinates (P), UPM, safe names
 │       ├── models.py           # Pydantic data models for glyphs and build config
 │       ├── glyphs.py           # Declarative polyline definitions for all 81 graphemes

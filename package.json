@@ -13,7 +13,8 @@
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     },
-    "./typeface": "./dist/triglavian.typeface.json"
+    "./typeface": "./dist/triglavian.typeface.json",
+    "./font": "./dist/triglavian.otf"
   },
   "bin": {
     "eve-triglavian": "./bin/cli.js"

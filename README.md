@@ -2,7 +2,7 @@
 
 A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
-Derived directly from the canonical OpenType font specimen (`triglavian-completed.otf`) used by CCP to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
+Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`) used by CCP to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
 
 ---
 
@@ -154,6 +154,7 @@ eve-triglavian/
 ├── bin/
 │   └── cli.js                     # Global executable CLI (npx eve-triglavian)
 ├── dist/                          # Canonical compiled 2D & 3D asset distribution
+│   ├── triglavian.otf             # Authoritative OpenType font specimen
 │   ├── svg/                       # 81 standalone vector SVGs (lower_*, upper_*, num_*, sym_*)
 │   ├── glb/                       # 81 binary glTF 3D models with PBR materials
 │   ├── obj/                       # 81 Wavefront OBJ polygon meshes
@@ -161,6 +162,7 @@ eve-triglavian/
 │   └── triglavian.typeface.json   # Three.js FontLoader typeface definition
 ├── index.html                     # 3D Web Visualizer studio HTML entry
 ├── package.json                   # NPM package definition, scripts, and exports
+├── pnpm-lock.yaml                 # Pnpm lockfile
 ├── scripts/
 │   └── build-assets.ts            # High-speed batch asset generator
 ├── src/
@@ -177,7 +179,6 @@ eve-triglavian/
 │       └── style.css              # Dark-mode Abyssal Deadspace styling
 ├── tests/
 │   └── triglavian.test.ts         # Vitest test suite (13 tests)
-├── triglavian-completed.otf       # Authoritative OpenType font specimen
 ├── tsconfig.json                  # TypeScript workspace configuration
 ├── tsconfig.lib.json              # TypeScript library compiler configuration
 └── vite.config.ts                 # Vite development and bundle configuration

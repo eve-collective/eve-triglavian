@@ -1,38 +1,10 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# Node dependencies
+node_modules/
 
-# Distribution / packaging (Python build artifacts)
-build/
-*.egg-info/
-dist/*.whl
-dist/*.tar.gz
-
-# Environments
-.venv/
-env/
-venv/
-ENV/
-
-# Testing & Tooling caches
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-.coverage
-htmlcov/
+# Production app builds & scratch
+dist-web/
+scratch/
 
 # OS generated files
 .DS_Store
 Thumbs.db
-
-# Heavy local AI upscaled assets
-*upscayl*
-reference_sheet_upscaled.png
-
-# Node dependencies
-node_modules/
-
-# Scratch and intermediate artifacts
-scratch/
-dist-web/

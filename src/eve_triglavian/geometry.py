@@ -49,11 +49,11 @@ def build_glyph_polygon(
     char: str,
     stroke_width: float = DEFAULT_STROKE_WIDTH,
 ) -> ShapelyGeom:
-    """Create a unified, non-overlapping polygonal geometry for a Triglavian character.
+    """Create a unified polygonal geometry for a Triglavian character.
 
     Args:
         char: The character to build.
-        stroke_width: Stroke width for polyline buffering.
+        stroke_width: Full stroke width (kept for API signature compatibility).
 
     Returns:
         A merged Shapely Polygon or MultiPolygon.
@@ -61,9 +61,24 @@ def build_glyph_polygon(
     if char not in GLYPHS:
         raise KeyError(f"Character '{char}' is not in Triglavian GLYPHS dictionary.")
 
-    paths = GLYPHS[char]
-    buffered_shapes = [stroke_to_polygon(path, stroke_width=stroke_width) for path in paths]
-    return unary_union(buffered_shapes)
+    polys: list[Polygon] = []
+    for p_dict in GLYPHS[char]:
+        shell = p_dict["shell"]
+        holes = p_dict.get("holes", [])
+        poly = Polygon(shell, holes=holes)
+        if not poly.is_valid:
+            poly = poly.buffer(0)
+        if not poly.is_empty:
+            if isinstance(poly, Polygon):
+                polys.append(poly)
+            elif isinstance(poly, MultiPolygon):
+                polys.extend(poly.geoms)
+
+    if not polys:
+        return Polygon()
+    if len(polys) == 1:
+        return polys[0]
+    return unary_union(polys)
 
 
 def svg_to_font_y(y: float, font_y_offset: int = 850) -> int:

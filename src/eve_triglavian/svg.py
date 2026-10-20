@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, UPM, pt
+from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, UPM
 from eve_triglavian.glyphs import GLYPHS, get_glyph_safe_name
 
 
@@ -18,33 +18,33 @@ def generate_glyph_svg_content(
 
     Args:
         char: The character to render.
-        stroke_width: Stroke width in UPM units.
-        stroke_color: Stroke color hex string.
+        stroke_width: Kept for API backwards-compatibility.
+        stroke_color: Fill and stroke color hex string.
         upm: Canvas width and height in units per em.
 
     Returns:
-        A formatted SVG XML string.
+        A formatted SVG XML string with sharp filled polygonal paths.
     """
     if char not in GLYPHS:
         raise KeyError(f"Character '{char}' is not in Triglavian GLYPHS dictionary.")
 
-    paths = GLYPHS[char]
-    svg_lines = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {upm} {upm}" width="100%" height="100%">',
-        f"  <!-- Triglavian Glyph: {char} (U+{ord(char):04X}) -->",
-        f'  <g fill="none" stroke="{stroke_color}" stroke-width="{stroke_width}" '
-        f'stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="6">',
-    ]
+    polys = GLYPHS[char]
+    d_parts = []
+    for p_dict in polys:
+        shell = p_dict["shell"]
+        if len(shell) >= 3:
+            d_parts.append("M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in shell) + " Z")
+        for hole in p_dict.get("holes", []):
+            if len(hole) >= 3:
+                d_parts.append("M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in hole) + " Z")
 
-    for path in paths:
-        coords = [pt(v) for v in path]
-        d = "M " + " L ".join(f"{x:.1f},{y:.1f}" for x, y in coords)
-        if coords[0] == coords[-1]:
-            d += " Z"
-        svg_lines.append(f'    <path d="{d}" />')
-
-    svg_lines.append("  </g>\n</svg>")
-    return "\n".join(svg_lines)
+    combined_d = " ".join(d_parts)
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {upm} {upm}" width="100%" height="100%">\n'
+        f"  <!-- Triglavian Glyph: {char} (U+{ord(char):04X}) -->\n"
+        f'  <path d="{combined_d}" fill="{stroke_color}" fill-rule="evenodd" />\n'
+        f"</svg>"
+    )
 
 
 def export_all_svgs(
@@ -56,8 +56,8 @@ def export_all_svgs(
 
     Args:
         output_dir: Destination directory path.
-        stroke_width: Stroke width in UPM units.
-        stroke_color: Stroke color hex string.
+        stroke_width: Kept for API backwards-compatibility.
+        stroke_color: Fill color hex string.
 
     Returns:
         List of Paths of the written SVG files.

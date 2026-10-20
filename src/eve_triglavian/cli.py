@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import time
 from pathlib import Path
-from typing import Optional
 
 import typer
 
@@ -171,14 +170,18 @@ def inspect(char: str = typer.Argument(..., help="Single character to inspect"))
     strokes = get_glyph_strokes(char)
     poly = build_glyph_polygon(char)
 
-    typer.secho(f"Glyph: {info_data.character} ({info_data.unicode_hex})", fg=typer.colors.CYAN, bold=True)
+    typer.secho(
+        f"Glyph: {info_data.character} ({info_data.unicode_hex})", fg=typer.colors.CYAN, bold=True
+    )
     typer.echo(f"  Category:    {info_data.category.value}")
     typer.echo(f"  Safe Name:   {info_data.safe_name}")
     typer.echo(f"  Strokes:     {info_data.stroke_count}")
     typer.echo(f"  Bounds:      {poly.bounds}")
     for idx, stroke in enumerate(strokes, start=1):
         pt_strs = [f"({p.x:.0f}, {p.y:.0f})" for p in stroke.points]
-        typer.echo(f"    Stroke {idx} ({len(stroke.points)} pts, closed={stroke.is_closed}): {' -> '.join(pt_strs)}")
+        typer.echo(
+            f"    Stroke {idx} ({len(stroke.points)} pts, closed={stroke.is_closed}): {' -> '.join(pt_strs)}"
+        )
 
 
 if __name__ == "__main__":

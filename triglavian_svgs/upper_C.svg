@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <!-- Triglavian Glyph: C (U+0043) -->
+  <g fill="none" stroke="#FFFFFF" stroke-width="44.0" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="6">
+    <path d="M 350.0,240.0 L 500.0,725.0 L 780.0,240.0" />
+    <path d="M 430.0,240.0 L 500.0,360.0" />
+    <path d="M 510.0,240.0 L 580.0,360.0" />
+    <path d="M 270.0,240.0 L 310.0,310.0" />
+  </g>
+</svg>

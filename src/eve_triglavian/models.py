@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -92,8 +91,8 @@ class BuildSummary(BaseModel):
     glyph_count: int
     svg_count: int
     ttf_generated: bool
-    svg_dir: Optional[str] = None
-    ttf_path: Optional[str] = None
+    svg_dir: str | None = None
+    ttf_path: str | None = None
     duration_seconds: float = 0.0
 
     model_config = ConfigDict(frozen=True)

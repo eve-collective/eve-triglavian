@@ -1,11 +1,10 @@
 """Tests for glyph catalog, character definitions, and categorization."""
 
 import pytest
+
 from eve_triglavian.glyphs import (
     GLYPHS,
-    get_glyph_category,
     get_glyph_info,
-    get_glyph_safe_name,
     get_glyph_strokes,
     list_all_glyph_info,
 )

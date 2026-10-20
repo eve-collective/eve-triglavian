@@ -1,7 +1,9 @@
 """Tests for Typer CLI commands."""
 
 from pathlib import Path
+
 from typer.testing import CliRunner
+
 from eve_triglavian.cli import app
 
 runner = CliRunner()
@@ -44,11 +46,16 @@ def test_cli_inspect_invalid():
 def test_cli_build(tmp_path: Path):
     svg_dir = tmp_path / "svgs"
     ttf_path = tmp_path / "TriglavianTest.ttf"
-    result = runner.invoke(app, [
-        "build",
-        "--output-dir", str(svg_dir),
-        "--ttf-path", str(ttf_path),
-    ])
+    result = runner.invoke(
+        app,
+        [
+            "build",
+            "--output-dir",
+            str(svg_dir),
+            "--ttf-path",
+            str(ttf_path),
+        ],
+    )
     assert result.exit_code == 0
     assert ttf_path.exists()
     assert svg_dir.exists()

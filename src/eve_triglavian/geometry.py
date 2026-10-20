@@ -62,10 +62,7 @@ def build_glyph_polygon(
         raise KeyError(f"Character '{char}' is not in Triglavian GLYPHS dictionary.")
 
     paths = GLYPHS[char]
-    buffered_shapes = [
-        stroke_to_polygon(path, stroke_width=stroke_width)
-        for path in paths
-    ]
+    buffered_shapes = [stroke_to_polygon(path, stroke_width=stroke_width) for path in paths]
     return unary_union(buffered_shapes)
 
 

@@ -1,7 +1,9 @@
 """Tests for TrueType font assembly and TTGlyphPen rendering."""
 
 from pathlib import Path
+
 from fontTools.ttLib import TTFont
+
 from eve_triglavian.font import compile_ttf_font
 from eve_triglavian.glyphs import GLYPHS
 

@@ -1,6 +1,7 @@
 """Tests for SVG output generation."""
 
 from pathlib import Path
+
 from eve_triglavian.glyphs import GLYPHS
 from eve_triglavian.svg import export_all_svgs, generate_glyph_svg_content
 

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, P, SAFE_NAMES, UPM, pt
+from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, SAFE_NAMES, UPM, P, pt
 from eve_triglavian.font import compile_ttf_font, draw_shapely_to_pen
 from eve_triglavian.geometry import build_glyph_polygon, stroke_to_polygon, svg_to_font_y
 from eve_triglavian.glyphs import (

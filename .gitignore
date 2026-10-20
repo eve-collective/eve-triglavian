@@ -21,11 +21,6 @@ ENV/
 .coverage
 htmlcov/
 
-# Build outputs (generated fonts and exported SVGs)
-triglavian_svgs/
-*.ttf
-*.otf
-
 # OS generated files
 .DS_Store
 Thumbs.db

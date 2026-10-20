@@ -1,7 +1,8 @@
 """Tests for constants and equilateral lattice coordinate resolution."""
 
 import pytest
-from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, P, SAFE_NAMES, UPM, pt
+
+from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, SAFE_NAMES, UPM, P, pt
 
 
 def test_canvas_metrics():
@@ -11,7 +12,7 @@ def test_canvas_metrics():
 
 def test_named_points_validity():
     assert len(P) > 0
-    for name, coords in P.items():
+    for _name, coords in P.items():
         assert len(coords) == 2
         x, y = coords
         assert 0 <= x <= UPM

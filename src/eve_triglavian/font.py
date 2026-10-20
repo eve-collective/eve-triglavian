@@ -3,20 +3,20 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from shapely.geometry import MultiPolygon, Polygon
 
-from eve_triglavian.constants import DEFAULT_STROKE_WIDTH, UPM
+from eve_triglavian.constants import DEFAULT_STROKE_WIDTH
 from eve_triglavian.geometry import build_glyph_polygon, svg_to_font_y
 from eve_triglavian.glyphs import GLYPHS
 from eve_triglavian.models import FontMetadata
 
 
 def draw_shapely_to_pen(
-    geom: Union[Polygon, MultiPolygon],
+    geom: Polygon | MultiPolygon,
     pen: TTGlyphPen,
     font_y_offset: int = 850,
 ) -> None:
@@ -57,9 +57,9 @@ def draw_shapely_to_pen(
 
 
 def compile_ttf_font(
-    output_path: Union[str, Path] = "TriglavianGeometric.ttf",
+    output_path: str | Path = "TriglavianGeometric.ttf",
     stroke_width: float = DEFAULT_STROKE_WIDTH,
-    metadata: Optional[FontMetadata] = None,
+    metadata: FontMetadata | None = None,
 ) -> Path:
     """Build and save an installable TrueType (.ttf) font file.
 
@@ -105,14 +105,16 @@ def compile_ttf_font(
     fb.setupGlyf(glyf_table)
     fb.setupHorizontalMetrics(metrics)
     fb.setupHorizontalHeader(ascent=meta.ascent, descent=meta.descent)
-    fb.setupNameTable({
-        "familyName": meta.family_name,
-        "styleName": meta.style_name,
-        "uniqueFontIdentifier": meta.unique_font_identifier,
-        "fullName": meta.full_name,
-        "psName": meta.ps_name,
-        "version": meta.version,
-    })
+    fb.setupNameTable(
+        {
+            "familyName": meta.family_name,
+            "styleName": meta.style_name,
+            "uniqueFontIdentifier": meta.unique_font_identifier,
+            "fullName": meta.full_name,
+            "psName": meta.ps_name,
+            "version": meta.version,
+        }
+    )
     fb.setupOS2(
         sTypoAscender=meta.ascent,
         sTypoDescender=meta.descent,

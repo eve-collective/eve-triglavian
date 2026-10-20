@@ -1,180 +1,223 @@
-# Triglavian Collective Typography & Geometric Font Generator
+# Triglavian Collective Typography & 3D Geometry Toolkit
 
-A programmatic typography toolkit and vector specimen library for the **Triglavian Collective** character set from _EVE Online_, based on the grapheme decoding sheets (`triglavian_grapheme_samples // crossreference TD-1`) compiled by the **Arataka Research Consortium (ARC)**.
+A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
-This repository provides two reproducible Python pipelines to generate **81 standalone SVG glyphs** and compile an installable, standards-compliant **TrueType/OpenType font (`.ttf` / `.otf`)**:
-
-1. **Pure Geometric Synthesis (Recommended):** Defines all 81 glyphs directly on an exact $60^\circ / 120^\circ$ equilateral coordinate lattice, expanding strokes into clean mitered polygons via computational geometry (`shapely` + `fonttools`).
-2. **Computer Vision Extraction:** Slices, thresholds, and traces the original glowing ARC raster chart into sharp polygonal SVGs and compiles them via `OpenCV`, `Potrace`, and `FontForge`.
+Derived directly from the canonical OpenType font specimen (`triglavian-completed.otf`) used by CCP to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
 
 ---
 
-## 📐 Typographic Findings: How Triglavian Characters Are Constructed
+## ⚡ What's New: The 2D/3D Geometric Pivot
 
-A structural analysis of the 81 graphemes in the ARC reference chart reveals that the Triglavian script is **not** a freehand calligraphy system, nor is it built on a standard orthogonal (Cartesian) grid. Instead, every character is a modular geometric assembly constrained to an **isometric / equilateral triangular lattice** where all stroke angles are multiples of $60^\circ$ ($0^\circ$, $60^\circ$, $120^\circ$).
+Previous iterations relied on manual raster tracing and heuristic TrueType (`.ttf`) compilation. With the discovery of the authoritative source font, this project pivots to a **pure computational geometry and 3D modeling engine**:
 
-### 1. The Equilateral Lattice ($\tan 60^\circ = \sqrt{3}$)
-
-Every glyph occupies a $1000 \times 1000$ UPM (Units Per Em) bounding box anchored by two primary equilateral frames:
-$$\Delta h = \frac{\sqrt{3}}{2} \cdot s \approx 0.866 \cdot s$$
-where $s$ is the side length of the outer bounding triangle ($s = 560\text{ UPM}$, $\Delta h \approx 485\text{ UPM}$).
-
-### 2. Core Structural Primitives
-
-All 81 characters are constructed by combining five recurring geometric primitives:
-
-| Primitive                              | Description                                                                                                                                                                                                | Example Characters                                                                    |
-| :------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| **1. Primary Apex Frame ($\Delta$)**   | An upward-pointing equilateral triangle with its apex at top-center $(500, 180)$ and base along $y = 665$. Often features a re-entrant hook at the bottom-right vertex.                                    | `A`, `J`, `K`, `L`, `O`, `S`, `V`, `a`, `f`, `p`, `x`, `1`, `2`, `4`                  |
-| **2. Inverted Frame ($\nabla$)**       | A downward-pointing equilateral triangle with its horizontal base at the cap-line ($y = 240$) and apex at $(500, 725)$.                                                                                    | `C`, `F`, `I`, `N`, `Q`, `R`, `T`, `Y`, `b`, `g`, `i`, `q`, `t`, `y`, `0`             |
-| **3. Bipartite W / M Zigzag**          | Wide, double-apex or double-inverted frames formed by two adjacent equilateral triangles sharing an inner $60^\circ$ edge.                                                                                 | `E`, `M`, `W`, `X`, `c`, `e`, `l`, `n`, `u`, `v`, `w`, `=`                            |
-| **4. Vertical Rhombus ($\diamond$)**   | A $60^\circ / 120^\circ$ diamond formed by joining a half-scale $\Delta$ and $\nabla$ along their horizontal bases. Primarily encodes numerals and mathematical operators.                                 | `8`, `9`, `#`, `-`, `+`                                                               |
-| **5. Nested Offset & Diacritic Ticks** | Inner parallel triangles offset inward by a fixed gutter ($\approx 85\text{ UPM}$) and short detached $60^\circ$ or $0^\circ$ floating ticks that distinguish phonetically or structurally similar glyphs. | Inner triangles in `A`, `K`, `U`, `9`; detached ticks in `C`, `I`, `c`, `m`, `:`, `;` |
-
-### 3. Case & Category Differentiation
-
-- **Uppercase (`A`–`Z`):** Characterized by higher stroke density, complete outer triangular frames, and nested inner sub-triangles or crossbars.
-- **Lowercase (`a`–`z`):** Simplified reductions of the uppercase frames—frequently omitting one edge of the bounding triangle or replacing an enclosed inner triangle with a single parallel tick.
-- **Numerals (`1`–`9`, `0`):** Strictly axisymmetric (or point-symmetric in the case of `6` and `7`) along the vertical centerline ($x = 500$). `1` is a pure $\Delta$, `0` is a $\nabla$ topped with a horizontal bar, and `8`/`9` transition into concentric rhombi.
-- **Punctuation & Operators:** Reduced micro-primitives occupying half-scale triangles (`.` `,` `'` `"` `^`) or augmented rhombi (`#` `-` `+`).
+- **Exact Canonical Geometry:** All 81 characters are represented as clean, closed, non-self-intersecting 2D polygons with outer shells and interior holes.
+- **Identical Stroke & Depth:** Every character shares the same canonical stroke width ($44\text{ UPM}$ on a $1000\text{ UPM}$ coordinate system) and uniform extrusion depth ($50\text{ UPM}$).
+- **Multi-Format 2D & 3D Exports:**
+  - **SVG (`dist/svg/`):** 81 lightweight, resolution-independent vector glyphs with `evenodd` winding.
+  - **Binary glTF (`dist/glb/`):** 81 ready-to-render 3D models with pre-computed vertex normals and PBR materials.
+  - **Wavefront OBJ (`dist/obj/`):** 81 universal polygon meshes for Blender, Maya, Unity, Unreal Engine, and WebGL.
+  - **Stereolithography (`dist/stl/`):** 81 watertight solids optimized for **3D printing** and physical fabrication.
+  - **Three.js Typeface (`dist/triglavian.typeface.json`):** Full JSON font for native Three.js `FontLoader` and `TextGeometry`.
+- **Procedural Three.js Engine:** Programmatically generate meshes, extrusions, custom bevels, and multi-character composed 3D text strings in real time.
+- **Interactive 3D Web Visualizer Studio:** A rich dark-mode WebGL application featuring real-time orbital controls, material shaders (*Obsidian*, *Plasma*, *Titanium*, *Gold*, *Wireframe*), live text composition, and one-click asset downloads.
 
 ---
 
-## 🛠️ Methodology & Build Pipelines
+## 📐 The Triglavian Script Geometry
 
-### Method 1: Pure Geometric Lattice Synthesis (`eve_triglavian`)
+The Triglavian script is constructed on an **isometric / equilateral triangular lattice** where all stroke angles are multiples of $60^\circ$ ($0^\circ$, $60^\circ$, $120^\circ$).
 
-Standard SVG files support single-line open paths with a visual `stroke-width`, but TrueType (`.ttf`) and OpenType (`.otf`) specifications require **closed, non-overlapping filled contours** with strict winding directions (clockwise for outer contours, counter-clockwise for inner holes in TrueType).
-
-To achieve mathematically crisp glyphs without raster tracing artifacts, `eve_triglavian` executes a 4-stage pipeline:
-
-1. **Lattice Coordinate Resolution:** Maps each character to a declarative list of open and closed polylines snapped to the $60^\circ$ grid.
-2. **SVG Export:** Emits 81 lightweight, resolution-independent `.svg` files (`stroke-linejoin="miter"`, `stroke-linecap="butt"`) into `./triglavian_svgs/`.
-3. **Mitered Polygon Buffering (Shapely):** Converts each 1D polyline into a 2D polygon by buffering at half the stroke width ($w/2 = 22\text{ UPM}$) using `cap_style=2` (flat) and `join_style=2` (sharp miter). Overlapping strokes within a glyph are merged into a single clean geometry via Boolean union (`shapely.ops.unary_union`), eliminating self-intersecting contours.
-4. **Binary Font Compilation (FontTools):** Transforms the merged polygon coordinates from SVG space ($Y$-down) to TrueType space ($Y$-up: $y_{\text{font}} = 850 - y_{\text{svg}}$), writes the outer and inner rings to a `TTGlyphPen`, sets horizontal advance metrics, and compiles `TriglavianGeometric.ttf`.
-
-### Method 2: Computer Vision & Bitmap Tracing (`slice_glyphs.py` + `build_font.py`)
-
-For direct archival extraction from the original ARC character sheet (`EE479357-654A-4AF8-8CF5-93BDA04D06A9.png`), an alternative image-processing pipeline is included:
-
-1. **Luminance Thresholding:** The original artwork features a soft blue bloom around white strokes. Applying a high binary threshold (`> 215` out of `255` in OpenCV) strips the outer glow and isolates the sharp core geometry.
-2. **Grid Slicing & Reticle Trimming:** Crops all 81 bounding boxes across the 7 rows and trims the outer $12\%$ margin of each cell to remove the HUD corner reticle ticks.
-3. **Polygonal Vectorization:** Passes each cropped bitmap to `potrace` with `--alphamax 0.0`, forcing sharp polygonal corners rather than smoothed Bézier curves.
-4. **FontForge Assembly:** Imports the traced SVGs into Unicode slots and generates `TriglavianARC.ttf` and `TriglavianARC.otf`.
+- **Bounding Box:** $1000 \times 1000\text{ UPM}$ (Units Per Em).
+- **Equilateral Height Ratio:** $\Delta h = \frac{\sqrt{3}}{2} \cdot s \approx 0.866 \cdot s$.
+- **81 Total Graphemes:**
+  - **26 Uppercase Letters (`A`–`Z`):** Primary apex triangles ($\Delta$), inverted frames ($\nabla$), and complex bipartite zigzags with nested sub-triangles.
+  - **26 Lowercase Letters (`a`–`z`):** Minimalist reductions featuring open bounding frames and offset diacritic ticks.
+  - **10 Numerals (`0`–`9`):** Axisymmetric along the vertical centerline ($x = 500$), transitioning from simple frames to nested rhombi.
+  - **19 Punctuation & Symbols:** Mathematical operators, brackets, and half-scale triangular marks.
 
 ---
 
-## 🚀 Quick Start & Tooling (`uv`)
+## 🚀 Quick Start
 
-This project uses modern Python packaging with **`uv`**, **`hatchling`**, **`ruff`**, and **`pytest`**.
-
-### Installation & Virtual Environment
-
-Install dependencies and set up the environment with `uv`:
+### Installation
 
 ```bash
-# Clone and enter directory
+# Clone the repository
+git clone https://github.com/pascal/eve-triglavian.git
 cd eve-triglavian
 
-# Install all dependencies and development tools
-uv sync --all-groups
+# Install dependencies (Node.js 18+)
+npm install
 ```
 
-### CLI Usage
+### Launch the 3D Web Visualizer Studio
 
-The package provides the `eve-triglavian` CLI command (also runnable directly via `uv run`):
+Run the interactive local studio with hot module reloading:
 
 ```bash
-# 1. Full Build (Exports 81 SVGs and compiles TrueType font into dist/)
-uv run eve-triglavian build
-
-# Custom options:
-uv run eve-triglavian build --output-dir custom_svgs --ttf-path custom.ttf --stroke-width 50.0
-
-# 2. Export SVGs only (defaults to dist/svg/)
-uv run eve-triglavian export-svg
-
-# 3. Compile TTF Font only (defaults to dist/TriglavianGeometric.ttf)
-uv run eve-triglavian compile-ttf
-
-# 4. Character Set Overview
-uv run eve-triglavian info
-
-# 5. Inspect a Specific Character
-uv run eve-triglavian inspect A
+npm run dev
 ```
 
-You can also run the package directly as a module:
+Open `http://localhost:3000` to inspect any character in 3D, customize extrusion depth and bevels, preview material presets, compose custom sentences, and export assets.
 
-```bash
-uv run python -m eve_triglavian
+---
+
+## 💻 Programmatic Usage (TypeScript / JavaScript)
+
+The library provides native Three.js objects, pure SVG generators, and multi-format exporters:
+
+```typescript
+import * as THREE from 'three';
+import {
+  createTriglavianMesh,
+  createTriglavianTextGroup,
+  generateSvg,
+  exportToGLB,
+  exportToOBJ,
+  exportToSTL
+} from 'eve-triglavian';
+
+// 1. Create a 3D Mesh for a single character
+const mesh = createTriglavianMesh('A', {
+  depth: 60,
+  bevelThickness: 3,
+  bevelSize: 2,
+  materialPreset: 'plasma' // 'obsidian' | 'plasma' | 'titanium' | 'gold' | 'wireframe'
+});
+scene.add(mesh);
+
+// 2. Compose a 3D text string with auto-spacing and centering
+const textGroup = createTriglavianTextGroup('KYBERNAUT', {
+  spacing: 220,
+  scale: 0.002,
+  depth: 50,
+  materialPreset: 'obsidian'
+});
+scene.add(textGroup);
+
+// 3. Generate standalone SVG markup
+const svgXml = generateSvg('Z', { fill: '#FF2244', width: 512, height: 512 });
+
+// 4. Headless 3D Exporting (Node.js or Browser)
+const glbBuffer = await exportToGLB(mesh);
+const objText = exportToOBJ(mesh);
+const stlText = exportToSTL(mesh);
+```
+
+### Using with Three.js `FontLoader` & `TextGeometry`
+
+The bundled `dist/triglavian.typeface.json` works directly with standard Three.js text rendering:
+
+```typescript
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+
+const loader = new FontLoader();
+loader.load('./dist/triglavian.typeface.json', (font) => {
+  const geometry = new TextGeometry('TRIGLAV', {
+    font: font,
+    size: 80,
+    depth: 20,
+    curveSegments: 1,
+    bevelEnabled: false
+  });
+  const textMesh = new THREE.Mesh(geometry, material);
+  scene.add(textMesh);
+});
 ```
 
 ---
 
-## 📁 Project Structure
+## 🛠️ CLI Tooling
+
+The package includes a command-line interface executable via `npx`:
+
+```bash
+# Rebuild all 81 SVGs, GLB, OBJ, STL models, and Typeface JSON into dist/
+npm run build:assets
+# Or via CLI directly:
+npx eve-triglavian build
+
+# Print SVG markup for any character
+npx eve-triglavian svg A
+
+# Show library metrics and character inventory
+npx eve-triglavian info
+```
+
+---
+
+## 📁 Repository Structure
 
 ```text
 eve-triglavian/
-├── pyproject.toml              # Build backend (Hatchling), dependencies, and tool configs
-├── README.md                   # Typographic documentation and usage instructions
-├── reference_sheet.png         # Triglavian grapheme reference sheet (Arataka Research Consortium)
-├── dist/                       # Compiled assets distribution
-│   ├── TriglavianGeometric.ttf # Standards-compliant TrueType font
-│   └── svg/                    # 81 standalone geometric SVG glyphs
+├── bin/
+│   └── cli.js                     # Global executable CLI (npx eve-triglavian)
+├── dist/                          # Canonical compiled 2D & 3D asset distribution
+│   ├── svg/                       # 81 standalone vector SVGs (lower_*, upper_*, num_*, sym_*)
+│   ├── glb/                       # 81 binary glTF 3D models with PBR materials
+│   ├── obj/                       # 81 Wavefront OBJ polygon meshes
+│   ├── stl/                       # 81 Stereolithography 3D print meshes
+│   └── triglavian.typeface.json   # Three.js FontLoader typeface definition
+├── index.html                     # 3D Web Visualizer studio HTML entry
+├── package.json                   # NPM package definition, scripts, and exports
+├── scripts/
+│   └── build-assets.ts            # High-speed batch asset generator
 ├── src/
-│   └── eve_triglavian/         # Main Python package
-│       ├── __init__.py         # Public exports and version
-│       ├── __main__.py         # Module execution entry point (python -m eve_triglavian)
-│       ├── constants.py        # Equilateral lattice coordinates (P), UPM, safe names
-│       ├── models.py           # Pydantic data models for glyphs and build config
-│       ├── glyphs.py           # Declarative polyline definitions for all 81 graphemes
-│       ├── geometry.py         # Shapely stroke buffering, boolean union, coordinates
-│       ├── svg.py              # SVG generator and bulk exporter
-│       ├── font.py             # TrueType font compiler using fontTools
-│       └── cli.py              # Typer CLI application (build, export-svg, compile-ttf, info, inspect)
-└── tests/                      # Automated test suite (pytest)
-    ├── test_constants.py       # Lattice coordinates and point resolution tests
-    ├── test_glyphs.py          # Character set completeness (81 glyphs) and category tests
-    ├── test_geometry.py       # Stroke buffering and polygon union tests
-    ├── test_svg.py             # SVG XML generation and file output tests
-    ├── test_font.py            # TTF font table and cmap verification tests
-    └── test_cli.py             # Typer CLI commands testing via CliRunner
+│   ├── types.ts                   # TypeScript interfaces (PolygonDef, MaterialOptions, etc.)
+│   ├── constants.ts               # Glyph categories, metric constants, safe filenames
+│   ├── glyphs-data.ts             # Canonical polygon coordinate dataset for all 81 glyphs
+│   ├── svg.ts                     # SVG path & XML generation engine
+│   ├── geometry.ts                # Three.js Shape, ExtrudeGeometry, & TextGroup generator
+│   ├── typeface.ts                # Three.js Typeface.json generator
+│   ├── exporters.ts               # Universal 3D exporters (GLB, OBJ, STL)
+│   ├── index.ts                   # Public library entry point
+│   └── web/                       # Interactive 3D Web Visualizer application
+│       ├── main.ts                # Three.js scene, lighting, controls, and UI bindings
+│       └── style.css              # Dark-mode Abyssal Deadspace styling
+├── tests/
+│   └── triglavian.test.ts         # Vitest test suite (13 tests)
+├── triglavian-completed.otf       # Authoritative OpenType font specimen
+├── tsconfig.json                  # TypeScript workspace configuration
+├── tsconfig.lib.json              # TypeScript library compiler configuration
+└── vite.config.ts                 # Vite development and bundle configuration
 ```
 
 ---
 
-## 🧪 Development & Quality Assurance
+## 🧪 Testing & Validation
 
-Run the automated test suite:
-
-```bash
-uv run pytest
-```
-
-Run linting and formatting checks:
+Run the Vitest automated test suite:
 
 ```bash
-uv run ruff check .
-uv run ruff format --check .
+npm test
 ```
+
+The test suite validates:
+- Character set completeness (81 canonical glyphs across 7 categories)
+- Deterministic filesystem-safe naming conventions
+- SVG validity, path attributes, and winding rules
+- Three.js procedural `Shape` hole attachment and containment
+- `BufferGeometry` extrusion, face normal orientation, and bounding boxes
+- PBR material preset application and 3D text group composition
+- Headless binary GLB, OBJ, and STL exporter integrity
 
 ---
 
 ## 🙏 Credits & Acknowledgments
 
-- **Arataka Research Consortium (ARC):** Sincere credit and gratitude to the Arataka Research Consortium for their groundbreaking decoding work, compilation, and publication of the Triglavian grapheme reference sheet (`reference_sheet.png`, cataloged as `triglavian_grapheme_samples // crossreference TD-1`). This research provided the foundational specimen data and visual reference required to reconstruct these geometric vectors.
+- **Arataka Research Consortium (ARC):** Deep appreciation to the Arataka Research Consortium for their monumental in-game cryptographic analysis, grapheme decoding, and documentation (`triglavian_grapheme_samples // crossreference TD-1`). Their work established the canonical foundation for Triglavian research across New Eden.
 
 ---
 
 ## ⚖️ Legal Disclaimer
 
-All _EVE Online_ materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Corporation**.
+All _EVE Online_ materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Corporation** and **CCP hf.**
 
-This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Corporation is implied.
+This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Corporation or CCP hf. is implied.
 
 ---
 
 ## 📄 License
 
-This software and font generation toolkit is distributed under the [MIT License](LICENSE).
+Distributed under the [MIT License](LICENSE).

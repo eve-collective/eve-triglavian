@@ -28,6 +28,11 @@ Thumbs.db
 
 # Heavy local AI upscaled assets
 *upscayl*
+reference_sheet_upscaled.png
+
+# Node dependencies
+node_modules/
 
 # Scratch and intermediate artifacts
 scratch/
+dist-web/

@@ -1,0 +1,53 @@
+{
+  "name": "eve-triglavian",
+  "version": "0.2.0",
+  "description": "Programmatic typography toolkit, 2D vector generator, and 3D geometric meshes for EVE Online Triglavian script",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./typeface": "./dist/triglavian.typeface.json"
+  },
+  "bin": {
+    "eve-triglavian": "./bin/cli.js"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build:app": "vite build",
+    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:assets": "tsx scripts/build-assets.ts",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "eve-online",
+    "triglavian",
+    "threejs",
+    "3d",
+    "webgl",
+    "typography",
+    "svg",
+    "gltf",
+    "glb",
+    "obj",
+    "stl"
+  ],
+  "author": "Pascal",
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/three": "^0.186.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}

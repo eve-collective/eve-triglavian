@@ -1,5 +1,7 @@
 # Triglavian Collective Typography & 3D Geometry Toolkit
 
+🌐 **Live Web Studio:** [https://eve-collective.github.io/eve-triglavian](https://eve-collective.github.io/eve-triglavian)
+
 A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
 Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`) used by CCP to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
@@ -50,9 +52,10 @@ cd eve-triglavian
 pnpm install
 ```
 
-### Launch the 3D Web Visualizer Studio
+### 3D Web Visualizer Studio
 
-Run the interactive local studio with hot module reloading:
+- **Live Web Application:** [https://eve-collective.github.io/eve-triglavian](https://eve-collective.github.io/eve-triglavian)
+- **Local Development:** Run the interactive local studio with hot module reloading:
 
 ```bash
 pnpm dev

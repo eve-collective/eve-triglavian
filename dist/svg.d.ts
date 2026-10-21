@@ -17,4 +17,13 @@ export declare function generateSvg(char: string, options?: SvgOptions): string;
  * Generate SVGs for all supported Triglavian characters.
  */
 export declare function exportAllSvgs(options?: SvgOptions): Record<string, string>;
+export interface TextSvgOptions extends SvgOptions {
+    letterSpacing?: number;
+    lineHeight?: number;
+    padding?: number;
+}
+/**
+ * Generate a composed multi-character / multi-line SVG vector document.
+ */
+export declare function generateTextSvg(text: string, options?: TextSvgOptions): string;
 //# sourceMappingURL=svg.d.ts.map

@@ -52,4 +52,48 @@ export function exportAllSvgs(options = {}) {
     }
     return result;
 }
+/**
+ * Generate a composed multi-character / multi-line SVG vector document.
+ */
+export function generateTextSvg(text, options = {}) {
+    const fill = options.fill ?? '#FF1E38';
+    const letterSpacing = options.letterSpacing ?? 100;
+    const lineHeight = options.lineHeight ?? 1100;
+    const padding = options.padding ?? 100;
+    const lines = text.split('\n');
+    let maxLineWidth = 0;
+    const renderedGlyphs = [];
+    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+        const line = lines[lineIndex];
+        let cursorX = padding;
+        const cursorY = padding + lineIndex * lineHeight;
+        for (const char of line) {
+            if (char === ' ') {
+                cursorX += 600 + letterSpacing;
+                continue;
+            }
+            if (GLYPHS_DATA[char]) {
+                const pathD = generateSvgPath(char);
+                renderedGlyphs.push({
+                    x: cursorX,
+                    y: cursorY,
+                    pathD
+                });
+                cursorX += 1000 + letterSpacing;
+            }
+        }
+        if (cursorX > maxLineWidth) {
+            maxLineWidth = cursorX;
+        }
+    }
+    const totalWidth = Math.max(maxLineWidth + padding, 1000);
+    const totalHeight = padding * 2 + Math.max(lines.length, 1) * lineHeight;
+    const glyphMarkup = renderedGlyphs.map(item => `  <g transform="translate(${item.x}, ${item.y})">\n    <path d="${item.pathD}" fill="${fill}" fill-rule="evenodd" />\n  </g>`);
+    return [
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidth} ${totalHeight}" width="100%" height="100%">`,
+        `  <!-- Triglavian Composed Text Specimen -->`,
+        ...glyphMarkup,
+        `</svg>`
+    ].join('\n');
+}
 //# sourceMappingURL=svg.js.map

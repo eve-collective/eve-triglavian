@@ -211,7 +211,7 @@ The test suite validates:
 ## 🪙 Donations & Support
 
 This project is free and open-source software built for the *EVE Online* community. In-kind or ISK donations are warmly welcomed to support ongoing open-source tool development:
-- **In-Game Donations (ISK / Assets):** Send to the **`EVE-Collective`** corporation in *EVE Online*.
+- **In-Game Donations (ISK / Assets):** Send to the **`EVE Collective`** corporation in *EVE Online*.
 
 ---
 

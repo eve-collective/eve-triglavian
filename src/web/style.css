@@ -457,24 +457,7 @@ body {
   box-shadow: 0 0 10px rgba(255, 30, 56, 0.4);
 }
 
-.search-box input {
-  padding: 0.55rem 1rem;
-  font-family: var(--font-tech);
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-sm);
-  color: #fff;
-  width: 260px;
-  outline: none;
-  transition: all 0.2s ease;
-}
 
-.search-box input:focus {
-  border-color: var(--accent-red);
-  box-shadow: 0 0 12px rgba(255, 30, 56, 0.3);
-}
 
 /* Matrix Grid Cards */
 .matrix-grid {

@@ -438,7 +438,6 @@ function update3DScene(resetCamera = false) {
 // ============================================================================
 
 let matrixActiveCategory = 'all';
-let matrixSearchQuery = '';
 
 function renderMatrixGrid() {
   const grid = document.getElementById('matrix-grid');
@@ -446,29 +445,9 @@ function renderMatrixGrid() {
   grid.innerHTML = '';
 
   const filtered = ALL_CHARACTERS.filter(char => {
-    const cat = getGlyphCategory(char);
-    if (matrixActiveCategory !== 'all' && cat !== matrixActiveCategory) {
-      return false;
-    }
-    if (matrixSearchQuery) {
-      const q = matrixSearchQuery.toLowerCase();
-      const safe = getGlyphSafeName(char).toLowerCase();
-      const hex = `u+${char.charCodeAt(0).toString(16).toLowerCase()}`;
-      if (!char.toLowerCase().includes(q) && !safe.includes(q) && !hex.includes(q)) {
-        return false;
-      }
-    }
-    return true;
+    if (matrixActiveCategory === 'all') return true;
+    return getGlyphCategory(char) === matrixActiveCategory;
   });
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--text-dim); font-family: var(--font-tech); font-size: 1.1rem;">
-        No graphemes matched "${matrixSearchQuery}" in category "${matrixActiveCategory}".
-      </div>
-    `;
-    return;
-  }
 
   for (const char of filtered) {
     const card = document.createElement('div');
@@ -725,14 +704,6 @@ function setupEventListeners() {
     });
   });
 
-  // Search Input (Matrix)
-  const searchInput = document.getElementById('matrix-search') as HTMLInputElement;
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      matrixSearchQuery = (e.target as HTMLInputElement).value.trim();
-      renderMatrixGrid();
-    });
-  }
 
   // Text Transcriber: Textarea Input
   const latinInput = document.getElementById('editor-latin-input') as HTMLTextAreaElement;

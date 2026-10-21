@@ -4,7 +4,7 @@
 
 A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
-Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`) used by CCP to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
+Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`) used by **Fenris Creations (FC)** (formerly CCP) to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
 
 ---
 
@@ -223,9 +223,9 @@ This project is free and open-source software built for the *EVE Online* communi
 
 ## ⚖️ Legal Disclaimer
 
-All _EVE Online_ materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Corporation** and **CCP hf.**
+All _EVE Online_ materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Creations (FC)** (formerly CCP hf.).
 
-This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Corporation or CCP hf. is implied.
+This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Creations (FC) is implied.
 
 ---
 

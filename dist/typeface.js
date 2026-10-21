@@ -68,7 +68,7 @@ export function generateTypefaceJson(familyName = 'TriglavianGeometric') {
         resolution: 1000,
         original_font_information: {
             format: 'opentype',
-            copyright: 'Original characters Copyright (c) 2018 by CCP hf. Programmatic geometry by Antigravity.'
+            copyright: 'Original characters Copyright (c) 2018 by Fenris Creations (FC) / CCP hf. Programmatic geometry by Antigravity.'
         }
     };
 }

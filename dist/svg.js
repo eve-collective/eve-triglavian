@@ -90,7 +90,7 @@ export function generateTextSvg(text, options = {}) {
     const totalHeight = padding * 2 + Math.max(lines.length, 1) * lineHeight;
     const glyphMarkup = renderedGlyphs.map(item => `  <g transform="translate(${item.x}, ${item.y})">\n    <path d="${item.pathD}" fill="${fill}" fill-rule="evenodd" />\n  </g>`);
     return [
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidth} ${totalHeight}" width="100%" height="100%">`,
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidth} ${totalHeight}" width="${totalWidth}" height="${totalHeight}">`,
         `  <!-- Triglavian Composed Text Specimen -->`,
         ...glyphMarkup,
         `</svg>`

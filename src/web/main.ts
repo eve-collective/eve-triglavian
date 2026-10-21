@@ -355,7 +355,23 @@ function applyLightingPreset() {
   });
 }
 
-function update3DScene() {
+function resetCameraView() {
+  const box = currentObject ? new THREE.Box3().setFromObject(currentObject) : null;
+  const size = box ? box.getSize(new THREE.Vector3()) : new THREE.Vector3(14, 14, 2);
+  const textWidth = Math.max(size.x, 14);
+
+  if (currentMode === 'text') {
+    const desiredZ = Math.max(18, textWidth * 0.95);
+    camera.position.set(0, Math.max(4, textWidth * 0.12), desiredZ);
+  } else {
+    camera.position.set(0, 4, 18);
+  }
+  camera.lookAt(0, 0, 0);
+  controls.target.set(0, 0, 0);
+  controls.update();
+}
+
+function update3DScene(resetCamera = false) {
   if (currentObject) {
     scene.remove(currentObject);
     if ((currentObject as THREE.Mesh).geometry) {
@@ -384,7 +400,7 @@ function update3DScene() {
 
   scene.add(currentObject);
 
-  // Calculate object bounding box to dynamically adjust lighting spread & camera
+  // Calculate object bounding box to dynamically adjust lighting spread & camera bounds
   const box = new THREE.Box3().setFromObject(currentObject);
   const size = box.getSize(new THREE.Vector3());
   const textWidth = Math.max(size.x, 14);
@@ -401,16 +417,20 @@ function update3DScene() {
   const gridScale = Math.max(1, textWidth / 28);
   gridHelper.scale.set(gridScale, 1, gridScale);
 
-  if (currentMode === 'text') {
-    const desiredZ = Math.max(18, textWidth * 0.95);
-    camera.position.set(0, Math.max(4, textWidth * 0.12), desiredZ);
+  const desiredZ = Math.max(18, textWidth * 0.95);
+  controls.maxDistance = currentMode === 'text' ? Math.max(100, desiredZ * 3) : 60;
+
+  // Only reset camera position and orientation when explicitly requested
+  if (resetCamera) {
+    if (currentMode === 'text') {
+      camera.position.set(0, Math.max(4, textWidth * 0.12), desiredZ);
+    } else {
+      camera.position.set(0, 4, 18);
+    }
     camera.lookAt(0, 0, 0);
-    controls.maxDistance = Math.max(100, desiredZ * 3);
     controls.target.set(0, 0, 0);
-    controls.update();
-  } else {
-    controls.maxDistance = 60;
   }
+  controls.update();
 }
 
 // ============================================================================
@@ -862,7 +882,7 @@ function setupEventListeners() {
 
     syncModeUI();
     setActiveTab('viewer');
-    update3DScene();
+    update3DScene(true);
     showToast(`Transferred "${currentText}" to 3D Viewport`, '🧊');
   });
 
@@ -899,7 +919,7 @@ function setupEventListeners() {
   depthSlider.addEventListener('input', () => {
     depth = parseFloat(depthSlider.value);
     depthValue.textContent = `${depth} UPM`;
-    update3DScene();
+    update3DScene(false);
   });
 
   const bevelSlider = document.getElementById('slider-bevel') as HTMLInputElement;
@@ -907,7 +927,7 @@ function setupEventListeners() {
   bevelSlider.addEventListener('input', () => {
     bevelThickness = parseFloat(bevelSlider.value);
     bevelValue.textContent = `${bevelThickness} UPM`;
-    update3DScene();
+    update3DScene(false);
   });
 
   // Preset Buttons (3D)
@@ -937,8 +957,8 @@ function setupEventListeners() {
   });
 
   document.getElementById('btn-reset-cam')!.addEventListener('click', () => {
-    camera.position.set(0, 4, 18);
-    controls.target.set(0, 0, 0);
+    resetCameraView();
+    showToast('Reset camera view', '⊙');
   });
 
   // Lighting Rig Controls
@@ -1070,7 +1090,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderMatrixGrid();
   setupEventListeners();
   updateTranscriber();
-  update3DScene();
+  update3DScene(true);
 
   // Support URL Hash Deep Linking
   const hash = window.location.hash.replace('#', '') as any;

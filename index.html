@@ -3,180 +3,513 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Triglavian 3D // Geometric Typography & Vector Studio</title>
-  <meta name="description" content="Interactive 3D geometry engine, Three.js procedural extrusion, and 2D vector typography toolkit for the EVE Online Triglavian Collective script.">
+  <title>Triglavian Collective // Archival Interface & 3D Typography Studio</title>
+  <meta name="description" content="Immersive Triglavian Collective suite: bilingual English-Triglavian text transcriber, canonical 81-grapheme specimen matrix, real-time 3D Three.js geometry studio, and multi-format asset downloads.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./src/web/style.css">
 </head>
 <body>
-  <!-- Header -->
+  <!-- Header & Navigation -->
   <header class="app-header">
     <div class="brand-container">
       <svg class="brand-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="50,15 15,75 85,75" stroke="#ff1e38" stroke-width="6" fill="rgba(255, 30, 56, 0.15)" />
+        <polygon points="50,12 12,78 88,78" stroke="#ff1e38" stroke-width="6" fill="rgba(255, 30, 56, 0.15)" />
         <polygon points="50,38 32,68 68,68" stroke="#ff1e38" stroke-width="4" fill="transparent" />
+        <circle cx="50" cy="56" r="3" fill="#ff1e38" />
       </svg>
       <div class="brand-text">
-        <h1>Triglavian <span>3D</span></h1>
-        <div class="brand-subtitle">Computational Geometry & Typography Engine</div>
+        <h1>TRIGLAVIAN <span>ARCHIVES</span></h1>
+        <div class="brand-subtitle">Semiosis of Vyrajk // Typography & 3D Studio</div>
       </div>
     </div>
-    <div class="header-badges">
-      <div class="badge pulse">Live WebGL</div>
-      <div class="badge">Three.js 3D</div>
-      <div class="badge">81 Graphemes</div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar" aria-label="Main Navigation">
+      <button class="nav-tab active" data-tab="overview">
+        <span class="nav-icon">◈</span> Overview & Matrix
+      </button>
+      <button class="nav-tab" data-tab="editor">
+        <span class="nav-icon">⌨</span> Text Transcriber
+      </button>
+      <button class="nav-tab" data-tab="viewer">
+        <span class="nav-icon">🧊</span> 3D Geometry Studio
+      </button>
+      <button class="nav-tab" data-tab="downloads">
+        <span class="nav-icon">⬇</span> Downloads & Assets
+      </button>
+    </nav>
+
+    <!-- Status Beacon -->
+    <div class="header-status">
+      <div class="status-indicator">
+        <span class="pulse-dot"></span>
+        <span class="status-text">CLADE FLOW // NOMINAL</span>
+      </div>
+      <div class="header-meta">81 Graphemes Loaded</div>
     </div>
   </header>
 
-  <!-- Main 3D Stage & Control Panel -->
-  <main class="main-layout">
-    <!-- 3D Canvas Viewport -->
-    <section class="viewport-section" aria-label="3D Viewport">
-      <div class="viewport-overlay-controls">
-        <button id="btn-autorotate" class="view-btn active" title="Toggle Auto-Rotation">
-          <span>⟳</span> Auto-Rotate
-        </button>
-        <button id="btn-reset-cam" class="view-btn" title="Reset Camera View">
-          <span>⊙</span> Reset View
-        </button>
-      </div>
-
-      <div id="canvas3d-container"></div>
-      <div class="viewport-hint">Orbit: Left Click + Drag | Pan: Right Click + Drag | Zoom: Scroll</div>
-    </section>
-
-    <!-- Sidebar Controls -->
-    <aside class="sidebar-panel">
-      <!-- Mode Selection -->
-      <div class="panel-card">
-        <div class="card-title">
-          <span>Mode Selection</span>
-          <span class="indicator">●</span>
-        </div>
-        <div class="tab-group">
-          <button id="tab-single" class="tab-btn active">Single Glyph</button>
-          <button id="tab-text" class="tab-btn">Text Composer</button>
-        </div>
-
-        <!-- Single Char Focus Info -->
-        <div id="single-char-controls">
-          <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
-            Select any glyph from the 81-character matrix below to inspect in real-time 3D.
-          </div>
-        </div>
-
-        <!-- Text Composer Input -->
-        <div id="text-composer-controls" style="display: none;">
-          <input 
-            type="text" 
-            id="composer-input" 
-            class="input-field" 
-            placeholder="Type text (e.g. KYBERNAUT)" 
-            value="TRIGLAVIAN" 
-            maxlength="24"
-            spellcheck="false"
-          />
-        </div>
-      </div>
-
-      <!-- Geometry Parameters -->
-      <div class="panel-card">
-        <div class="card-title">
-          <span>3D Geometry</span>
-          <span class="indicator">●</span>
-        </div>
-
-        <div class="control-row">
-          <div class="control-label">
-            <span>Extrusion Depth</span>
-            <span id="val-depth" class="control-value">50 UPM</span>
-          </div>
-          <input type="range" id="slider-depth" min="10" max="150" step="5" value="50">
-        </div>
-
-        <div class="control-row">
-          <div class="control-label">
-            <span>Bevel Thickness</span>
-            <span id="val-bevel" class="control-value">4 UPM</span>
-          </div>
-          <input type="range" id="slider-bevel" min="0" max="12" step="1" value="4">
-        </div>
-      </div>
-
-      <!-- Material Presets -->
-      <div class="panel-card">
-        <div class="card-title">
-          <span>Material Presets</span>
-          <span class="indicator">●</span>
-        </div>
-        <div class="preset-grid">
-          <button class="preset-btn active" data-preset="plasma">
-            <span class="preset-dot" style="background: #ff1e38; box-shadow: 0 0 6px #ff1e38;"></span>
-            Plasma Glow
-          </button>
-          <button class="preset-btn" data-preset="obsidian">
-            <span class="preset-dot" style="background: #2b303a;"></span>
-            Obsidian Hull
-          </button>
-          <button class="preset-btn" data-preset="titanium">
-            <span class="preset-dot" style="background: #8a929a;"></span>
-            Titanium Alloy
-          </button>
-          <button class="preset-btn" data-preset="gold">
-            <span class="preset-dot" style="background: #d4af37;"></span>
-            Gold Artifex
-          </button>
-          <button class="preset-btn" data-preset="wireframe" style="grid-column: span 2;">
-            <span class="preset-dot" style="background: #ff3b52;"></span>
-            Holographic Wireframe
-          </button>
-        </div>
-      </div>
-
-      <!-- Export Hub -->
-      <div class="panel-card">
-        <div class="card-title">
-          <span>Export Hub</span>
-          <span class="indicator">●</span>
-        </div>
-        <div class="export-grid">
-          <button id="btn-export-glb" class="btn-action btn-primary">
-            <span>⬇</span> Export 3D (.GLB)
-          </button>
-          <button id="btn-export-obj" class="btn-action">
-            <span>⬇</span> Wavefront (.OBJ)
-          </button>
-          <button id="btn-export-stl" class="btn-action">
-            <span>⬇</span> 3D Print (.STL)
-          </button>
-          <button id="btn-export-svg" class="btn-action">
-            <span>⬇</span> 2D Vector (.SVG)
-          </button>
-          <button id="btn-export-font" class="btn-action" style="grid-column: span 2;">
-            <span>⬇</span> Three.js Font (Typeface JSON)
-          </button>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <!-- 81-Character Interactive Matrix Drawer -->
-  <section class="glyph-matrix-container">
-    <div class="matrix-header">
-      <div>
-        <h2>Canonical Grapheme Matrix</h2>
-        <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem;">
-          Exact isometric triangular lattice geometry derived from the authoritative Triglavian OTF and reference sheet.
+  <!-- Tool 1: Overview & Canonical Grapheme Matrix -->
+  <section id="tab-overview" class="view-section active">
+    <!-- Hero Banner -->
+    <div class="hero-card">
+      <div class="hero-content">
+        <div class="hero-badge">EVE ONLINE // ARCHIVAL SPECIMEN DATABASE</div>
+        <h2 class="hero-title">The Flow of Vyrajk: Triglavian Collective Script</h2>
+        <p class="hero-desc">
+          A modular geometric typography system constrained to an <strong>isometric / equilateral triangular lattice</strong> ($60^\circ / 120^\circ$) where all strokes adhere to strict triangular symmetry. Derived directly from the canonical OpenType font specimen deciphered by the <strong>Arataka Research Consortium (ARC)</strong>.
         </p>
+        <div class="hero-actions">
+          <button class="btn-hero btn-hero-primary" data-nav="editor">
+            <span>⌨</span> Open Text Transcriber
+          </button>
+          <button class="btn-hero btn-hero-secondary" data-nav="viewer">
+            <span>🧊</span> Launch 3D Geometry Viewer
+          </button>
+          <button class="btn-hero btn-hero-outline" data-nav="downloads">
+            <span>⬇</span> Resource Downloads (.OTF, JSON, 3D)
+          </button>
+        </div>
       </div>
-      <div class="matrix-count">81 Total Glyphs</div>
+
+      <div class="hero-stats-grid">
+        <div class="stat-pill">
+          <div class="stat-number">81</div>
+          <div class="stat-label">Canonical Graphemes</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-number">60°</div>
+          <div class="stat-label">Lattice Stroke Angles</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-number">44</div>
+          <div class="stat-label">UPM Stroke Width</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Export Formats</div>
+        </div>
+      </div>
     </div>
 
-    <div id="matrix-rows-container">
-      <!-- Populated dynamically via main.ts -->
+    <!-- Grapheme Matrix Section -->
+    <div class="matrix-section">
+      <div class="matrix-toolbar">
+        <div class="matrix-title-group">
+          <h3>Canonical Grapheme Specimen Matrix</h3>
+          <p>Explore the complete 81-character inventory across 7 canonical structural rows.</p>
+        </div>
+
+        <div class="matrix-filter-controls">
+          <div class="category-filter-group">
+            <button class="cat-btn active" data-cat="all">All (81)</button>
+            <button class="cat-btn" data-cat="uppercase">Uppercase (26)</button>
+            <button class="cat-btn" data-cat="lowercase">Lowercase (26)</button>
+            <button class="cat-btn" data-cat="numeral">Numerals (10)</button>
+            <button class="cat-btn" data-cat="symbol">Symbols (19)</button>
+          </div>
+
+          <div class="search-box">
+            <input type="text" id="matrix-search" placeholder="Search glyph (e.g. A, 9, colon)..." maxlength="16" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Matrix Grid View -->
+      <div id="matrix-grid" class="matrix-grid">
+        <!-- Rendered dynamically by main.ts -->
+      </div>
     </div>
   </section>
+
+  <!-- Tool 2: Bilingual Text Editor & Transcriber -->
+  <section id="tab-editor" class="view-section">
+    <div class="editor-container">
+      <div class="editor-header">
+        <div>
+          <h2>Triglavian Bilingual Transcriber</h2>
+          <p>Real-time bidirectional transcription terminal between Latin (English) and Triglavian semiosis.</p>
+        </div>
+        <div class="editor-presets">
+          <span class="preset-label">Iconic Presets:</span>
+          <div class="preset-chips">
+            <button class="chip" data-phrase="KYBERNAUT CLADE FLOW">KYBERNAUT CLADE FLOW</button>
+            <button class="chip" data-phrase="PROVING GROUND OF CONDUIT LOOP">CONDUIT LOOP</button>
+            <button class="chip" data-phrase="SEMBIOSIS FLOW UNSTABLE">SEMBIOSIS UNSTABLE</button>
+            <button class="chip" data-phrase="EXTIRPATION OF CORRUPTED MORTALS">EXTIRPATION</button>
+            <button class="chip" data-phrase="TRIGLAVIAN COLLECTIVE">TRIGLAVIAN COLLECTIVE</button>
+            <button class="chip" data-phrase="THE FLOW OF VYRAJK">FLOW OF VYRAJK</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Box: English / Latin -->
+      <div class="transcribe-card input-card">
+        <div class="card-bar">
+          <div class="bar-title">
+            <span class="bar-indicator">01</span>
+            <span>LATIN INPUT STREAM</span>
+          </div>
+          <div class="bar-meta">
+            <span id="editor-char-count">0 / 500 CHARACTERS</span>
+            <span id="editor-char-status" class="status-badge valid">100% COMPATIBLE</span>
+            <button id="btn-editor-clear" class="btn-text">Clear</button>
+          </div>
+        </div>
+
+        <textarea 
+          id="editor-latin-input" 
+          class="transcribe-textarea" 
+          placeholder="ENTER TEXT TO TRANSCRIBE INTO TRIGLAVIAN SCRIPT (e.g. KYBERNAUT EXTIRPATION)..."
+          maxlength="500"
+          spellcheck="false"
+        >KYBERNAUT CLADE FLOW</textarea>
+
+        <!-- Warning banner if unsupported characters entered -->
+        <div id="unsupported-warning" class="unsupported-banner" style="display: none;">
+          <span class="warn-icon">⚠</span>
+          <span id="unsupported-msg">Some characters are not supported in Triglavian script and will be ignored.</span>
+        </div>
+      </div>
+
+      <!-- Flow Divider -->
+      <div class="flow-divider">
+        <div class="divider-line"></div>
+        <div class="divider-badge">
+          <span>▼ // TRANSCRIBING SEMIOSIS STREAM // ▼</span>
+        </div>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Output Box: Triglavian Script Display -->
+      <div class="transcribe-card output-card">
+        <div class="card-bar">
+          <div class="bar-title">
+            <span class="bar-indicator">02</span>
+            <span>TRIGLAVIAN SCRIPT CHANNEL</span>
+          </div>
+
+          <div class="display-mode-selector">
+            <span class="mode-label">Render Mode:</span>
+            <button id="btn-mode-font" class="mode-pill active">Authentic OpenType Font</button>
+            <button id="btn-mode-vector" class="mode-pill">Vector Glyphs (SVG)</button>
+          </div>
+        </div>
+
+        <!-- Live Controls Toolbar -->
+        <div class="editor-controls-bar">
+          <div class="control-item">
+            <label for="editor-font-size">Size: <span id="val-font-size">52px</span></label>
+            <input type="range" id="editor-font-size" min="24" max="96" step="2" value="52">
+          </div>
+
+          <div class="control-item">
+            <label for="editor-letter-spacing">Spacing: <span id="val-letter-spacing">6px</span></label>
+            <input type="range" id="editor-letter-spacing" min="0" max="32" step="2" value="6">
+          </div>
+
+          <div class="control-item">
+            <label>Glow Palette:</label>
+            <div class="color-palette">
+              <button class="color-dot active" data-color="#ff1e38" title="Crimson Plasma" style="background: #ff1e38;"></button>
+              <button class="color-dot" data-color="#ff9100" title="Abyssal Amber" style="background: #ff9100;"></button>
+              <button class="color-dot" data-color="#f0f3f6" title="Titanium White" style="background: #f0f3f6;"></button>
+              <button class="color-dot" data-color="#4e5b6e" title="Obsidian Steel" style="background: #4e5b6e;"></button>
+            </div>
+          </div>
+
+          <div class="control-item">
+            <label>Align:</label>
+            <div class="align-group">
+              <button class="align-btn active" data-align="left">⫷</button>
+              <button class="align-btn" data-align="center">≡</button>
+              <button class="align-btn" data-align="right">⫸</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Triglavian Output Stage -->
+        <div id="editor-triglavian-output" class="triglavian-output-stage font-mode">
+          <!-- Populated dynamically via main.ts -->
+        </div>
+
+        <!-- Action Bar -->
+        <div class="editor-action-bar">
+          <div class="left-actions">
+            <button id="btn-copy-latin" class="btn-action">
+              <span>📋</span> Copy English
+            </button>
+            <button id="btn-copy-triglavian" class="btn-action">
+              <span>📋</span> Copy Triglavian Unicode
+            </button>
+          </div>
+
+          <div class="right-actions">
+            <button id="btn-editor-to-3d" class="btn-action btn-primary">
+              <span>🧊</span> Send to 3D Viewer
+            </button>
+            <button id="btn-editor-export-svg" class="btn-action">
+              <span>⬇</span> Export Composed SVG
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool 3: 3D Geometry Studio -->
+  <section id="tab-viewer" class="view-section">
+    <div class="studio-layout">
+      <!-- 3D Canvas Viewport -->
+      <section class="viewport-section" aria-label="3D Viewport">
+        <div class="viewport-overlay-controls">
+          <button id="btn-autorotate" class="view-btn active" title="Toggle Auto-Rotation">
+            <span>⟳</span> Auto-Rotate
+          </button>
+          <button id="btn-toggle-grid" class="view-btn active" title="Toggle Floor Grid">
+            <span>⊞</span> Grid Floor
+          </button>
+          <button id="btn-reset-cam" class="view-btn" title="Reset Camera View">
+            <span>⊙</span> Reset View
+          </button>
+        </div>
+
+        <div id="canvas3d-container"></div>
+        <div class="viewport-hint">Orbit: Left Click + Drag | Pan: Right Click + Drag | Zoom: Scroll Wheel</div>
+      </section>
+
+      <!-- Sidebar Controls -->
+      <aside class="sidebar-panel">
+        <!-- Mode Selection -->
+        <div class="panel-card">
+          <div class="card-title">
+            <span>Mode Selection</span>
+            <span class="indicator">●</span>
+          </div>
+          <div class="tab-group">
+            <button id="tab-single" class="tab-btn active">Single Glyph</button>
+            <button id="tab-text" class="tab-btn">Text Composer</button>
+          </div>
+
+          <!-- Single Char Focus Info -->
+          <div id="single-char-controls">
+            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+              Active Glyph: <strong id="current-char-display" style="color: var(--accent-red); font-size: 1.1rem;">A</strong>
+              <div style="margin-top: 0.25rem;">Select any character from the Overview Matrix or type below.</div>
+            </div>
+          </div>
+
+          <!-- Text Composer Input -->
+          <div id="text-composer-controls" style="display: none;">
+            <input 
+              type="text" 
+              id="composer-input" 
+              class="input-field" 
+              placeholder="Type text (e.g. KYBERNAUT)" 
+              value="TRIGLAVIAN" 
+              maxlength="24"
+              spellcheck="false"
+            />
+          </div>
+        </div>
+
+        <!-- Geometry Parameters -->
+        <div class="panel-card">
+          <div class="card-title">
+            <span>3D Geometry</span>
+            <span class="indicator">●</span>
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">
+              <span>Extrusion Depth</span>
+              <span id="val-depth" class="control-value">50 UPM</span>
+            </div>
+            <input type="range" id="slider-depth" min="10" max="150" step="5" value="50">
+          </div>
+
+          <div class="control-row">
+            <div class="control-label">
+              <span>Bevel Thickness</span>
+              <span id="val-bevel" class="control-value">4 UPM</span>
+            </div>
+            <input type="range" id="slider-bevel" min="0" max="12" step="1" value="4">
+          </div>
+        </div>
+
+        <!-- Material Presets -->
+        <div class="panel-card">
+          <div class="card-title">
+            <span>Material Presets</span>
+            <span class="indicator">●</span>
+          </div>
+          <div class="preset-grid">
+            <button class="preset-btn active" data-preset="plasma">
+              <span class="preset-dot" style="background: #ff1e38; box-shadow: 0 0 6px #ff1e38;"></span>
+              Plasma Glow
+            </button>
+            <button class="preset-btn" data-preset="obsidian">
+              <span class="preset-dot" style="background: #2b303a;"></span>
+              Obsidian Hull
+            </button>
+            <button class="preset-btn" data-preset="titanium">
+              <span class="preset-dot" style="background: #8a929a;"></span>
+              Titanium Alloy
+            </button>
+            <button class="preset-btn" data-preset="gold">
+              <span class="preset-dot" style="background: #d4af37;"></span>
+              Gold Artifex
+            </button>
+            <button class="preset-btn" data-preset="wireframe" style="grid-column: span 2;">
+              <span class="preset-dot" style="background: #ff3b52;"></span>
+              Holographic Wireframe
+            </button>
+          </div>
+        </div>
+
+        <!-- Export Hub -->
+        <div class="panel-card">
+          <div class="card-title">
+            <span>Export Hub</span>
+            <span class="indicator">●</span>
+          </div>
+          <div class="export-grid">
+            <button id="btn-export-glb" class="btn-action btn-primary">
+              <span>⬇</span> Export 3D (.GLB)
+            </button>
+            <button id="btn-export-obj" class="btn-action">
+              <span>⬇</span> Wavefront (.OBJ)
+            </button>
+            <button id="btn-export-stl" class="btn-action">
+              <span>⬇</span> 3D Print (.STL)
+            </button>
+            <button id="btn-export-svg" class="btn-action">
+              <span>⬇</span> 2D Vector (.SVG)
+            </button>
+            <button id="btn-export-font" class="btn-action" style="grid-column: span 2;">
+              <span>⬇</span> Three.js Font (Typeface JSON)
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Tool 4: Resource Downloads & Asset Hub -->
+  <section id="tab-downloads" class="view-section">
+    <div class="downloads-container">
+      <div class="downloads-header">
+        <h2>Archival Repository & Asset Downloads</h2>
+        <p>Canonical files for desktop typography, 3D printing, game engines, and graphic design.</p>
+      </div>
+
+      <div class="download-cards-grid">
+        <!-- Card 1: OpenType Font -->
+        <div class="download-card">
+          <div class="card-icon">🔤</div>
+          <div class="card-header">
+            <h3>Canonical OpenType Font</h3>
+            <span class="file-tag">.OTF &bull; 14 KB</span>
+          </div>
+          <p class="card-description">
+            The authoritative OpenType font file containing all 81 glyphs. Installable directly on macOS, Windows, and Linux. Compatible with Figma, Adobe Photoshop, Illustrator, Word, Blender, and Web CSS.
+          </p>
+          <ul class="card-specs">
+            <li>✓ 81 Canonical Graphemes (A-Z, a-z, 0-9, Symbols)</li>
+            <li>✓ Exact $60^\circ / 120^\circ$ Equilateral Geometry</li>
+            <li>✓ Universal Standard advance width</li>
+          </ul>
+          <a href="/triglavian.otf" download="triglavian.otf" class="btn-action btn-primary download-trigger">
+            <span>⬇</span> Download triglavian.otf
+          </a>
+        </div>
+
+        <!-- Card 2: Three.js Typeface JSON -->
+        <div class="download-card">
+          <div class="card-icon">🌐</div>
+          <div class="card-header">
+            <h3>Three.js Typeface JSON</h3>
+            <span class="file-tag">.JSON &bull; 11 KB</span>
+          </div>
+          <p class="card-description">
+            Web-ready JSON font definition specifically formatted for Three.js <code>FontLoader</code> and <code>TextGeometry</code> procedural 3D text generation in WebGL environments.
+          </p>
+          <ul class="card-specs">
+            <li>✓ Direct <code>FontLoader</code> Compatibility</li>
+            <li>✓ Precise contour commands & glyph metrics</li>
+            <li>✓ Zero server dependency for WebGL</li>
+          </ul>
+          <button id="btn-download-typeface" class="btn-action btn-primary download-trigger">
+            <span>⬇</span> Download triglavian.typeface.json
+          </button>
+        </div>
+
+        <!-- Card 3: 2D Vector SVGs Archive -->
+        <div class="download-card">
+          <div class="card-icon">📐</div>
+          <div class="card-header">
+            <h3>All 81 Vector SVGs (ZIP)</h3>
+            <span class="file-tag">.ZIP Archive</span>
+          </div>
+          <p class="card-description">
+            Complete archive of 81 resolution-independent vector SVG glyphs with standardized 1000&times;1000 UPM viewboxes, flat miters, and <code>evenodd</code> fill rules.
+          </p>
+          <ul class="card-specs">
+            <li>✓ 81 Individual Clean SVG Files</li>
+            <li>✓ Organized by filename (upper_*, lower_*, etc.)</li>
+            <li>✓ Ready for laser cutters, vinyl, and web design</li>
+          </ul>
+          <button id="btn-download-all-svgs" class="btn-action btn-primary download-trigger">
+            <span>⬇</span> Download All 81 SVGs (.ZIP)
+          </button>
+        </div>
+
+        <!-- Card 4: 3D Printable STL Meshes -->
+        <div class="download-card">
+          <div class="card-icon">🖨️</div>
+          <div class="card-header">
+            <h3>3D Print STL Collection</h3>
+            <span class="file-tag">.STL Meshes</span>
+          </div>
+          <p class="card-description">
+            Watertight 3D solids with uniform 50 UPM extrusion depth and 44 UPM stroke width. Calibrated for FDM and resin (SLA) 3D printers and CNC milling.
+          </p>
+          <ul class="card-specs">
+            <li>✓ Watertight manifold geometry</li>
+            <li>✓ Clean bevels and pre-computed normals</li>
+            <li>✓ Available in <code>dist/stl/</code> or export from Studio</li>
+          </ul>
+          <button class="btn-action download-trigger" data-nav="viewer">
+            <span>🧊</span> Open 3D Studio to Export STL
+          </button>
+        </div>
+
+        <!-- Card 5: Game Engine 3D Assets (GLB/OBJ) -->
+        <div class="download-card">
+          <div class="card-icon">🎮</div>
+          <div class="card-header">
+            <h3>Game Engine 3D Assets</h3>
+            <span class="file-tag">.GLB &bull; .OBJ</span>
+          </div>
+          <p class="card-description">
+            Binary glTF 2.0 models with PBR material definitions and universal Wavefront OBJ meshes ready for drag-and-drop into Unreal Engine 5, Unity, Godot, and Blender.
+          </p>
+          <ul class="card-specs">
+            <li>✓ Pre-computed vertex normals</li>
+            <li>✓ PBR material presets embedded in GLB</li>
+            <li>✓ Available in <code>dist/glb/</code> and <code>dist/obj/</code></li>
+          </ul>
+          <button class="btn-action download-trigger" data-nav="viewer">
+            <span>🧊</span> Open 3D Studio to Export GLB
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
 
   <!-- Footer / Lore & Property Disclaimers -->
   <footer class="app-footer">
@@ -184,7 +517,7 @@
       Deciphered by <strong>Arataka Research Consortium (ARC)</strong> &bull; Original Typography & Lore Copyright &copy; 2018 CCP hf.
     </div>
     <div class="footer-disclaimer">
-      EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf. 
+      EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf. and Fenris Corporation. 
       Triglavian script decipherment and reference sheet material is credited to the Arataka Research Consortium.
       This project is an open-source non-commercial computational geometry and typography toolkit published under the MIT License.
     </div>

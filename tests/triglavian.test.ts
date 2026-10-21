@@ -8,6 +8,7 @@ import {
   GLYPHS_DATA,
   generateSvg,
   generateSvgPath,
+  generateTextSvg,
   createThreeShapes,
   createTriglavianGeometry,
   createTriglavianMesh,
@@ -58,6 +59,13 @@ describe('2D Vector SVG Generation', () => {
       expect(pathD).toContain('M');
       expect(pathD).toContain('Z');
     }
+  });
+
+  it('generates multi-character composed SVG text', () => {
+    const textSvg = generateTextSvg('KYBERNAUT\nFLOW');
+    expect(textSvg).toContain('<svg xmlns="http://www.w3.org/2000/svg"');
+    expect(textSvg).toContain('<g transform="translate(');
+    expect(textSvg).toContain('fill-rule="evenodd"');
   });
 });
 

@@ -35,6 +35,14 @@ let editorFontSize = 52;
 let editorLetterSpacing = 6;
 let editorColor = '#ff1e38';
 let editorAlign: 'left' | 'center' | 'right' = 'left';
+let editorTransparentBg = true;
+let editorGlowEnabled = true;
+
+// Lighting State
+type LightPreset = 'studio' | 'abyssal' | 'horizon' | 'neon';
+let currentLightPreset: LightPreset = 'studio';
+let lightIntensity = 1.4;
+let headlightEnabled = true;
 
 // Three.js Core
 let scene: THREE.Scene;
@@ -43,6 +51,15 @@ let renderer: THREE.WebGLRenderer;
 let controls: OrbitControls;
 let gridHelper: THREE.GridHelper;
 let currentObject: THREE.Object3D | null = null;
+
+// Lighting Objects
+let hemiLight: THREE.HemisphereLight;
+let mainKeyLight: THREE.DirectionalLight;
+let leftFillLight: THREE.DirectionalLight;
+let rightFillLight: THREE.DirectionalLight;
+let rimLight: THREE.DirectionalLight;
+let bottomFillLight: THREE.PointLight;
+let cameraHeadlight: THREE.DirectionalLight;
 
 // ============================================================================
 // 1. Navigation & Toast System
@@ -66,10 +83,14 @@ function setActiveTab(tab: 'overview' | 'editor' | 'viewer' | 'downloads') {
 
   // Re-layout Three.js canvas when 3D viewer is shown
   if (tab === 'viewer') {
+    requestAnimationFrame(() => {
+      onWindowResize();
+      update3DScene();
+    });
     setTimeout(() => {
       onWindowResize();
       update3DScene();
-    }, 50);
+    }, 60);
   }
 }
 
@@ -112,7 +133,7 @@ function initThree() {
 
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x06080c);
-  scene.fog = new THREE.FogExp2(0x06080c, 0.025);
+  // Clear scene fog so large/wide text strings remain fully illuminated and crisp across any distance
 
   camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
   camera.position.set(0, 4, 18);
@@ -135,26 +156,48 @@ function initThree() {
   controls.minDistance = 4;
   controls.target.set(0, 0, 0);
 
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
-  scene.add(ambientLight);
+  // Setup Adaptive Multi-Light Rig
+  hemiLight = new THREE.HemisphereLight(0xfff8f2, 0x1f2530, 0.9);
+  scene.add(hemiLight);
 
-  const mainLight = new THREE.DirectionalLight(0xfff0e8, 2.0);
-  mainLight.position.set(12, 18, 14);
-  mainLight.castShadow = true;
-  mainLight.shadow.mapSize.width = 1024;
-  mainLight.shadow.mapSize.height = 1024;
-  scene.add(mainLight);
+  mainKeyLight = new THREE.DirectionalLight(0xffffff, 1.8);
+  mainKeyLight.position.set(0, 20, 20);
+  mainKeyLight.castShadow = true;
+  mainKeyLight.shadow.mapSize.width = 1024;
+  mainKeyLight.shadow.mapSize.height = 1024;
+  scene.add(mainKeyLight);
 
-  // Crimson Abyssal rim light
-  const rimLight = new THREE.DirectionalLight(0xff1e42, 3.5);
-  rimLight.position.set(-14, 8, -12);
+  leftFillLight = new THREE.DirectionalLight(0xffeded, 1.4);
+  leftFillLight.position.set(-15, 12, 16);
+  scene.add(leftFillLight);
+
+  rightFillLight = new THREE.DirectionalLight(0xffeded, 1.4);
+  rightFillLight.position.set(15, 12, 16);
+  scene.add(rightFillLight);
+
+  rimLight = new THREE.DirectionalLight(0xff3b52, 1.8);
+  rimLight.position.set(0, 16, -20);
   scene.add(rimLight);
 
-  // Fill light
-  const fillLight = new THREE.PointLight(0xff5511, 1.2, 50);
-  fillLight.position.set(0, -6, 5);
-  scene.add(fillLight);
+  bottomFillLight = new THREE.PointLight(0xff6622, 0.7, 0);
+  bottomFillLight.position.set(0, -6, 5);
+  scene.add(bottomFillLight);
+
+  // Camera Follow-Light (Headlight ensures face in view is never dark)
+  cameraHeadlight = new THREE.DirectionalLight(0xffffff, 0.85);
+  cameraHeadlight.position.set(0, 0, 0);
+  cameraHeadlight.target.position.set(0, 0, -1);
+  camera.add(cameraHeadlight);
+  camera.add(cameraHeadlight.target);
+  scene.add(camera);
+
+  // Add light targets to scene for accurate world transforms
+  scene.add(mainKeyLight.target);
+  scene.add(leftFillLight.target);
+  scene.add(rightFillLight.target);
+  scene.add(rimLight.target);
+
+  applyLightingPreset();
 
   // Grid Floor
   gridHelper = new THREE.GridHelper(40, 40, 0xff1e42, 0x1f2530);
@@ -182,6 +225,134 @@ function animate() {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
+}
+
+function applyLightingPreset() {
+  if (!mainKeyLight) return;
+
+  switch (currentLightPreset) {
+    case 'studio':
+      // Studio Wide: Balanced, broad, non-decaying illumination for wide text lines
+      hemiLight.color.setHex(0xfff8f2);
+      hemiLight.groundColor.setHex(0x1f2530);
+      hemiLight.intensity = 0.95 * lightIntensity;
+
+      mainKeyLight.color.setHex(0xffffff);
+      mainKeyLight.intensity = 1.8 * lightIntensity;
+
+      leftFillLight.color.setHex(0xffeded);
+      leftFillLight.intensity = 1.4 * lightIntensity;
+
+      rightFillLight.color.setHex(0xffeded);
+      rightFillLight.intensity = 1.4 * lightIntensity;
+
+      rimLight.color.setHex(0xff3b52);
+      rimLight.intensity = 1.8 * lightIntensity;
+
+      bottomFillLight.color.setHex(0xff6622);
+      bottomFillLight.intensity = 0.7 * lightIntensity;
+
+      cameraHeadlight.color.setHex(0xffffff);
+      cameraHeadlight.intensity = 0.85 * lightIntensity;
+      renderer.toneMappingExposure = 1.25;
+      break;
+
+    case 'abyssal':
+      // Abyssal Noir: Moody, high-contrast, deep crimson plasma glow
+      hemiLight.color.setHex(0x2b060d);
+      hemiLight.groundColor.setHex(0x06080c);
+      hemiLight.intensity = 0.4 * lightIntensity;
+
+      mainKeyLight.color.setHex(0xffdddd);
+      mainKeyLight.intensity = 1.2 * lightIntensity;
+
+      leftFillLight.color.setHex(0xff1e38);
+      leftFillLight.intensity = 2.5 * lightIntensity;
+
+      rightFillLight.color.setHex(0xff3b52);
+      rightFillLight.intensity = 2.2 * lightIntensity;
+
+      rimLight.color.setHex(0xff0025);
+      rimLight.intensity = 4.2 * lightIntensity;
+
+      bottomFillLight.color.setHex(0xff1100);
+      bottomFillLight.intensity = 1.0 * lightIntensity;
+
+      cameraHeadlight.color.setHex(0xffe0e0);
+      cameraHeadlight.intensity = 0.35 * lightIntensity;
+      renderer.toneMappingExposure = 1.1;
+      break;
+
+    case 'horizon':
+      // Broad Horizon: Ultra-uniform, high-ambient daylight illumination (no dark spots)
+      hemiLight.color.setHex(0xffffff);
+      hemiLight.groundColor.setHex(0x5a6575);
+      hemiLight.intensity = 1.6 * lightIntensity;
+
+      mainKeyLight.color.setHex(0xffffff);
+      mainKeyLight.intensity = 2.0 * lightIntensity;
+
+      leftFillLight.color.setHex(0xf5f8ff);
+      leftFillLight.intensity = 1.8 * lightIntensity;
+
+      rightFillLight.color.setHex(0xf5f8ff);
+      rightFillLight.intensity = 1.8 * lightIntensity;
+
+      rimLight.color.setHex(0xffffff);
+      rimLight.intensity = 1.6 * lightIntensity;
+
+      bottomFillLight.color.setHex(0xffffff);
+      bottomFillLight.intensity = 0.9 * lightIntensity;
+
+      cameraHeadlight.color.setHex(0xffffff);
+      cameraHeadlight.intensity = 1.2 * lightIntensity;
+      renderer.toneMappingExposure = 1.35;
+      break;
+
+    case 'neon':
+      // Dual Chroma: Cyberpunk electric crimson on left, vibrant cyan on right
+      hemiLight.color.setHex(0x0c1424);
+      hemiLight.groundColor.setHex(0x000000);
+      hemiLight.intensity = 0.5 * lightIntensity;
+
+      mainKeyLight.color.setHex(0xffffff);
+      mainKeyLight.intensity = 1.2 * lightIntensity;
+
+      leftFillLight.color.setHex(0xff1e38);
+      leftFillLight.intensity = 3.2 * lightIntensity; // Deep Crimson
+
+      rightFillLight.color.setHex(0x00f0ff);
+      rightFillLight.intensity = 3.2 * lightIntensity; // Electric Cyan
+
+      rimLight.color.setHex(0xff9100);
+      rimLight.intensity = 2.4 * lightIntensity; // Amber backlight
+
+      bottomFillLight.color.setHex(0xaa00ff);
+      bottomFillLight.intensity = 0.9 * lightIntensity;
+
+      cameraHeadlight.color.setHex(0xffffff);
+      cameraHeadlight.intensity = 0.5 * lightIntensity;
+      renderer.toneMappingExposure = 1.2;
+      break;
+  }
+
+  cameraHeadlight.visible = headlightEnabled;
+
+  // Sync UI labels and buttons
+  const labelEl = document.getElementById('label-active-light');
+  if (labelEl) {
+    const names: Record<LightPreset, string> = {
+      studio: 'Studio Wide',
+      abyssal: 'Abyssal Noir',
+      horizon: 'Broad Horizon',
+      neon: 'Dual Chroma'
+    };
+    labelEl.textContent = names[currentLightPreset];
+  }
+
+  document.querySelectorAll('.light-preset-btn').forEach(btn => {
+    btn.classList.toggle('active', (btn as HTMLElement).dataset.light === currentLightPreset);
+  });
 }
 
 function update3DScene() {
@@ -213,8 +384,32 @@ function update3DScene() {
 
   scene.add(currentObject);
 
-  if (currentMode === 'text' && currentText.length > 3) {
+  // Calculate object bounding box to dynamically adjust lighting spread & camera
+  const box = new THREE.Box3().setFromObject(currentObject);
+  const size = box.getSize(new THREE.Vector3());
+  const textWidth = Math.max(size.x, 14);
+
+  // Dynamically spread lateral fill lights across the width of the geometry
+  leftFillLight.position.set(-textWidth * 0.55, 16, Math.max(16, textWidth * 0.2));
+  leftFillLight.target.position.set(-textWidth * 0.25, 0, 0);
+  rightFillLight.position.set(textWidth * 0.55, 16, Math.max(16, textWidth * 0.2));
+  rightFillLight.target.position.set(textWidth * 0.25, 0, 0);
+  mainKeyLight.position.set(0, 22, Math.max(20, textWidth * 0.35));
+  rimLight.position.set(0, 18, -Math.max(18, textWidth * 0.35));
+
+  // Scale grid floor helper to frame the text nicely
+  const gridScale = Math.max(1, textWidth / 28);
+  gridHelper.scale.set(gridScale, 1, gridScale);
+
+  if (currentMode === 'text') {
+    const desiredZ = Math.max(18, textWidth * 0.95);
+    camera.position.set(0, Math.max(4, textWidth * 0.12), desiredZ);
+    camera.lookAt(0, 0, 0);
+    controls.maxDistance = Math.max(100, desiredZ * 3);
     controls.target.set(0, 0, 0);
+    controls.update();
+  } else {
+    controls.maxDistance = 60;
   }
 }
 
@@ -271,41 +466,11 @@ function renderMatrixGrid() {
         <span class="glyph-hex">${hex}</span>
       </div>
       <div class="glyph-name">${safeName}</div>
-      <div class="glyph-card-actions">
-        <button class="btn-card-action btn-act-3d" title="Inspect in 3D">3D View</button>
-        <button class="btn-card-action btn-act-type" title="Insert to Transcriber">Type</button>
-        <button class="btn-card-action btn-act-svg" title="Download SVG">SVG</button>
-      </div>
     `;
 
-    // Click on card body
-    card.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('.btn-card-action')) return; // Handled separately
+    // Click anywhere on card to select and inspect in 3D
+    card.addEventListener('click', () => {
       selectCharFor3D(char);
-    });
-
-    // 3D View button
-    card.querySelector('.btn-act-3d')?.addEventListener('click', () => {
-      selectCharFor3D(char);
-    });
-
-    // Type button
-    card.querySelector('.btn-act-type')?.addEventListener('click', () => {
-      const input = document.getElementById('editor-latin-input') as HTMLTextAreaElement;
-      if (input) {
-        input.value += char;
-        updateTranscriber();
-        setActiveTab('editor');
-        showToast(`Appended '${char}' to transcriber`, '⌨');
-      }
-    });
-
-    // SVG download button
-    card.querySelector('.btn-act-svg')?.addEventListener('click', () => {
-      const svgStr = generateSvg(char, { fill: '#ffffff' });
-      triggerDownload(new Blob([svgStr], { type: 'image/svg+xml' }), `${safeName}.svg`);
-      showToast(`Downloaded ${safeName}.svg`, '⬇');
     });
 
     grid.appendChild(card);
@@ -367,7 +532,8 @@ function updateTranscriber() {
   outputEl.style.letterSpacing = `${editorLetterSpacing}px`;
   outputEl.style.textAlign = editorAlign;
   outputEl.style.color = editorColor;
-  outputEl.style.textShadow = `0 0 16px ${editorColor}`;
+  outputEl.style.textShadow = editorGlowEnabled ? `0 0 16px ${editorColor}` : 'none';
+  outputEl.style.background = editorTransparentBg ? 'transparent' : 'rgba(6, 8, 12, 0.95)';
 
   if (editorRenderMode === 'font') {
     outputEl.className = 'triglavian-output-stage font-mode';
@@ -406,6 +572,104 @@ function updateTranscriber() {
         outputEl.appendChild(breakEl);
       }
     });
+  }
+}
+
+/**
+ * Render the composed Triglavian text into a high-resolution PNG Blob
+ * supporting transparent background and custom plasma glow.
+ */
+async function createComposedPngBlob(options: {
+  transparent: boolean;
+  glow: boolean;
+}): Promise<Blob> {
+  const input = document.getElementById('editor-latin-input') as HTMLTextAreaElement;
+  const text = (input?.value.trim()) || 'TRIGLAVIAN';
+
+  const svgStr = generateTextSvg(text, {
+    fill: editorColor,
+    letterSpacing: editorLetterSpacing * 15,
+    padding: 120
+  });
+
+  const match = svgStr.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+  const origW = match ? parseFloat(match[1]) : 1200;
+  const origH = match ? parseFloat(match[2]) : 600;
+
+  const targetWidth = Math.min(3840, Math.max(1200, Math.round(origW * 0.85)));
+  const scale = targetWidth / origW;
+  const targetHeight = Math.round(origH * scale);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Could not get 2D canvas context');
+
+  if (!options.transparent) {
+    ctx.fillStyle = '#06080c';
+    ctx.fillRect(0, 0, targetWidth, targetHeight);
+  } else {
+    ctx.clearRect(0, 0, targetWidth, targetHeight);
+  }
+
+  const svgBlob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(svgBlob);
+  const img = new Image();
+
+  await new Promise<void>((resolve, reject) => {
+    img.onload = () => {
+      if (options.glow) {
+        ctx.shadowColor = editorColor;
+        ctx.shadowBlur = 36 * scale;
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+        ctx.shadowBlur = 16 * scale;
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+      }
+      ctx.shadowBlur = 0;
+      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+      URL.revokeObjectURL(url);
+      resolve();
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to rasterize SVG into Image'));
+    };
+    img.src = url;
+  });
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error('Failed to create PNG blob from canvas'));
+    }, 'image/png');
+  });
+}
+
+/**
+ * Copy composed high-resolution PNG image directly to clipboard
+ */
+async function copyImageToClipboard() {
+  try {
+    showToast('Rendering high-res image...', '⏳');
+    const blob = await createComposedPngBlob({
+      transparent: editorTransparentBg,
+      glow: editorGlowEnabled
+    });
+
+    if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
+      await navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blob })
+      ]);
+      const modeDesc = `${editorTransparentBg ? 'Transparent' : 'Dark BG'}, ${editorGlowEnabled ? 'Glow ON' : 'Glow OFF'}`;
+      showToast(`Copied image to clipboard (${modeDesc})`, '📸');
+    } else {
+      triggerDownload(blob, 'triglavian-text.png');
+      showToast('Clipboard API unavailable; downloaded PNG instead', '⬇');
+    }
+  } catch (err) {
+    console.error('Clipboard copy failed:', err);
+    showToast('Failed to copy image to clipboard', '✕');
   }
 }
 
@@ -540,11 +804,49 @@ function setupEventListeners() {
     }
   });
 
-  // Copy Triglavian Unicode
-  document.getElementById('btn-copy-triglavian')?.addEventListener('click', async () => {
-    if (latinInput) {
-      await navigator.clipboard.writeText(latinInput.value);
-      showToast('Triglavian script copied to clipboard', '📋');
+  // Copy High-Res PNG Image to Clipboard
+  document.getElementById('btn-copy-image')?.addEventListener('click', () => {
+    copyImageToClipboard();
+  });
+
+  // Toggle Transparent vs Dark Background
+  const btnToggleTransparent = document.getElementById('btn-toggle-transparent');
+  const labelTransparent = document.getElementById('label-transparent');
+  btnToggleTransparent?.addEventListener('click', () => {
+    editorTransparentBg = !editorTransparentBg;
+    btnToggleTransparent.classList.toggle('active', editorTransparentBg);
+    if (labelTransparent) {
+      labelTransparent.textContent = editorTransparentBg ? 'Transparent BG' : 'Dark BG';
+    }
+    updateTranscriber();
+    showToast(`Background set to: ${editorTransparentBg ? 'Transparent' : 'Dark Abyssal'}`, '◻');
+  });
+
+  // Toggle Glow Effect
+  const btnToggleGlow = document.getElementById('btn-toggle-glow');
+  const labelGlow = document.getElementById('label-glow');
+  btnToggleGlow?.addEventListener('click', () => {
+    editorGlowEnabled = !editorGlowEnabled;
+    btnToggleGlow.classList.toggle('active', editorGlowEnabled);
+    if (labelGlow) {
+      labelGlow.textContent = editorGlowEnabled ? 'Glow: ON' : 'Glow: OFF';
+    }
+    updateTranscriber();
+    showToast(`Glow effect: ${editorGlowEnabled ? 'ENABLED' : 'DISABLED'}`, '✨');
+  });
+
+  // Export Rasterized PNG File
+  document.getElementById('btn-editor-export-png')?.addEventListener('click', async () => {
+    try {
+      showToast('Rendering PNG image...', '⏳');
+      const blob = await createComposedPngBlob({
+        transparent: editorTransparentBg,
+        glow: editorGlowEnabled
+      });
+      triggerDownload(blob, 'triglavian-composed.png');
+      showToast('Downloaded triglavian-composed.png', '⬇');
+    } catch {
+      showToast('Failed to generate PNG image', '✕');
     }
   });
 
@@ -552,7 +854,7 @@ function setupEventListeners() {
   document.getElementById('btn-editor-to-3d')?.addEventListener('click', () => {
     if (!latinInput) return;
     const text = latinInput.value.trim() || 'TRIGLAVIAN';
-    currentText = text.slice(0, 24); // Limit for 3D layout bounds
+    currentText = text.slice(0, 48); // Extended bounds for long phrases
     currentMode = 'text';
 
     const composerInput = document.getElementById('composer-input') as HTMLInputElement;
@@ -637,6 +939,45 @@ function setupEventListeners() {
   document.getElementById('btn-reset-cam')!.addEventListener('click', () => {
     camera.position.set(0, 4, 18);
     controls.target.set(0, 0, 0);
+  });
+
+  // Lighting Rig Controls
+  document.querySelectorAll('.light-preset-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.light-preset-btn').forEach(b => b.classList.remove('active'));
+      const target = e.currentTarget as HTMLElement;
+      target.classList.add('active');
+      currentLightPreset = target.dataset.light as LightPreset;
+      applyLightingPreset();
+      showToast(`Activated ${target.textContent?.trim()} Lighting Rig`, '💡');
+    });
+  });
+
+  const lightIntensitySlider = document.getElementById('slider-light-intensity') as HTMLInputElement;
+  const lightIntensityVal = document.getElementById('val-light-intensity');
+  lightIntensitySlider?.addEventListener('input', () => {
+    lightIntensity = parseFloat(lightIntensitySlider.value);
+    if (lightIntensityVal) lightIntensityVal.textContent = `${lightIntensity.toFixed(1)}x`;
+    applyLightingPreset();
+  });
+
+  const toggleHeadlightBtn = document.getElementById('btn-toggle-headlight');
+  toggleHeadlightBtn?.addEventListener('click', () => {
+    headlightEnabled = !headlightEnabled;
+    toggleHeadlightBtn.classList.toggle('active', headlightEnabled);
+    toggleHeadlightBtn.textContent = headlightEnabled ? 'ENABLED' : 'DISABLED';
+    applyLightingPreset();
+    showToast(`Camera Headlight: ${headlightEnabled ? 'ENABLED' : 'DISABLED'}`, '💡');
+  });
+
+  // Viewport Quick Cycle Button
+  const cycleLightBtn = document.getElementById('btn-cycle-light');
+  cycleLightBtn?.addEventListener('click', () => {
+    const presets: LightPreset[] = ['studio', 'abyssal', 'horizon', 'neon'];
+    const nextIdx = (presets.indexOf(currentLightPreset) + 1) % presets.length;
+    currentLightPreset = presets[nextIdx];
+    applyLightingPreset();
+    showToast(`Switched lighting: ${currentLightPreset.toUpperCase()}`, '💡');
   });
 
   // Export 3D Models

@@ -216,6 +216,11 @@ body {
   animation: fadeIn 0.25s ease-out;
 }
 
+#tab-viewer {
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}
+
 .view-section.active {
   display: block;
 }
@@ -486,9 +491,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -505,8 +510,7 @@ body {
 .glyph-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-active);
-  box-shadow: 0 6px 20px rgba(255, 30, 56, 0.25);
-  transform: translateY(-3px);
+  box-shadow: 0 0 16px rgba(255, 30, 56, 0.35);
 }
 
 .glyph-card:hover::before {
@@ -574,37 +578,6 @@ body {
   text-align: center;
   position: relative;
   z-index: 1;
-}
-
-.glyph-card-actions {
-  display: none;
-  width: 100%;
-  gap: 0.3rem;
-  margin-top: 0.2rem;
-  position: relative;
-  z-index: 2;
-}
-
-.glyph-card:hover .glyph-card-actions {
-  display: flex;
-}
-
-.btn-card-action {
-  flex: 1;
-  padding: 0.3rem 0;
-  font-family: var(--font-tech);
-  font-size: 0.72rem;
-  font-weight: 700;
-  background: rgba(255, 30, 56, 0.15);
-  border: 1px solid rgba(255, 30, 56, 0.3);
-  color: #fff;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.btn-card-action:hover {
-  background: var(--accent-red);
 }
 
 /* ==========================================================================
@@ -1044,6 +1017,42 @@ body {
   box-shadow: 0 6px 20px rgba(255, 30, 56, 0.55);
 }
 
+.middle-options {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  font-family: var(--font-tech);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: rgba(14, 18, 28, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.btn-toggle.active {
+  background: rgba(255, 30, 56, 0.15);
+  border-color: var(--accent-red);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 30, 56, 0.25);
+}
+
 /* ==========================================================================
    TOOL 3: 3D GEOMETRY STUDIO
    ========================================================================== */
@@ -1051,8 +1060,10 @@ body {
 .studio-layout {
   display: grid;
   grid-template-columns: 1fr 380px;
-  gap: 1.5rem;
-  min-height: calc(100vh - 160px);
+  gap: 1.25rem;
+  height: calc(100vh - 125px);
+  min-height: 520px;
+  max-height: 780px;
 }
 
 .viewport-section {
@@ -1062,7 +1073,8 @@ body {
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-  min-height: 600px;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
@@ -1130,14 +1142,36 @@ body {
 .sidebar-panel {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.85rem;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.sidebar-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-panel::-webkit-scrollbar-track {
+  background: rgba(10, 14, 20, 0.5);
+  border-radius: 3px;
+}
+
+.sidebar-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 30, 56, 0.3);
+  border-radius: 3px;
+}
+
+.sidebar-panel::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 30, 56, 0.6);
 }
 
 .panel-card {
   background: var(--bg-panel);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 0.95rem 1.1rem;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
@@ -1146,14 +1180,14 @@ body {
   justify-content: space-between;
   align-items: center;
   font-family: var(--font-tech);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #fff;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.4rem;
 }
 
 .card-title .indicator {
@@ -1249,7 +1283,7 @@ body {
   gap: 0.5rem;
 }
 
-.preset-btn {
+.preset-btn, .light-preset-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1265,12 +1299,12 @@ body {
   transition: all 0.15s ease;
 }
 
-.preset-btn:hover {
+.preset-btn:hover, .light-preset-btn:hover {
   border-color: rgba(255, 255, 255, 0.2);
   color: #fff;
 }
 
-.preset-btn.active {
+.preset-btn.active, .light-preset-btn.active {
   border-color: var(--accent-red);
   background: rgba(255, 30, 56, 0.15);
   color: #fff;
@@ -1489,6 +1523,18 @@ body {
 
   .studio-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    max-height: none;
+  }
+
+  .viewport-section {
+    height: 520px;
+    min-height: 520px;
+  }
+
+  .sidebar-panel {
+    height: auto;
+    overflow-y: visible;
   }
 
   .nav-bar {
@@ -1515,4 +1561,93 @@ body {
   .download-cards-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* GitHub Navigation Button */
+.btn-github-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-tech);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-github-nav:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+/* Donation Banner */
+.donation-banner {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: linear-gradient(135deg, rgba(255, 30, 56, 0.12) 0%, rgba(14, 18, 28, 0.95) 100%);
+  border: 1px solid rgba(255, 30, 56, 0.35);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.75rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.donation-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.donation-title {
+  font-family: var(--font-tech);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.donation-desc {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.donation-desc strong {
+  color: #ff3b52;
+}
+
+.footer-donation {
+  margin-top: 0.5rem;
+  font-family: var(--font-tech);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.footer-donation strong {
+  color: #ff3b52;
+}
+
+.footer-github-link {
+  color: var(--text-dim);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.footer-github-link:hover {
+  color: #fff;
 }

@@ -122,7 +122,7 @@ export function generateTextSvg(text: string, options: TextSvgOptions = {}): str
   );
 
   return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidth} ${totalHeight}" width="100%" height="100%">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalWidth} ${totalHeight}" width="${totalWidth}" height="${totalHeight}">`,
     `  <!-- Triglavian Composed Text Specimen -->`,
     ...glyphMarkup,
     `</svg>`

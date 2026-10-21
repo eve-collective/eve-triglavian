@@ -43,7 +43,7 @@ The Triglavian script is constructed on an **isometric / equilateral triangular 
 
 ```bash
 # Clone the repository
-git clone https://github.com/pascal/eve-triglavian.git
+git clone https://github.com/eve-collective/eve-triglavian.git
 cd eve-triglavian
 
 # Install dependencies (Node.js 18+ with pnpm)
@@ -202,6 +202,13 @@ The test suite validates:
 - `BufferGeometry` extrusion, face normal orientation, and bounding boxes
 - PBR material preset application and 3D text group composition
 - Headless binary GLB, OBJ, and STL exporter integrity
+
+---
+
+## 🪙 Donations & Support
+
+This project is free and open-source software built for the *EVE Online* community. In-kind or ISK donations are warmly welcomed to support ongoing open-source tool development:
+- **In-Game Donations (ISK / Assets):** Send to the **`EVE-Collective`** corporation in *EVE Online*.
 
 ---
 

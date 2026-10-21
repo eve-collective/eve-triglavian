@@ -20,7 +20,7 @@
       </svg>
       <div class="brand-text">
         <h1>TRIGLAVIAN <span>ARCHIVES</span></h1>
-        <div class="brand-subtitle">Semiosis of Vyrajk // Typography & 3D Studio</div>
+        <div class="brand-subtitle">EVE Collective // Typography & 3D Studio</div>
       </div>
     </div>
 
@@ -40,6 +40,14 @@
       </button>
     </nav>
 
+    <!-- GitHub Project Link -->
+    <a href="https://github.com/eve-collective/eve-triglavian" target="_blank" rel="noopener noreferrer" class="btn-github-nav" title="View Repository on GitHub (EVE Collective)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+      </svg>
+      <span>GitHub</span>
+    </a>
+
     <!-- Status Beacon -->
     <div class="header-status">
       <div class="status-indicator">
@@ -56,7 +64,7 @@
     <div class="hero-card">
       <div class="hero-content">
         <div class="hero-badge">EVE ONLINE // ARCHIVAL SPECIMEN DATABASE</div>
-        <h2 class="hero-title">The Flow of Vyrajk: Triglavian Collective Script</h2>
+        <h2 class="hero-title">Triglavian Collective Alphabet & Geometry Studio</h2>
         <p class="hero-desc">
           A modular geometric typography system constrained to an <strong>isometric / equilateral triangular lattice</strong> ($60^\circ / 120^\circ$) where all strokes adhere to strict triangular symmetry. Derived directly from the canonical OpenType font specimen deciphered by the <strong>Arataka Research Consortium (ARC)</strong>.
         </p>
@@ -139,7 +147,7 @@
             <button class="chip" data-phrase="SEMBIOSIS FLOW UNSTABLE">SEMBIOSIS UNSTABLE</button>
             <button class="chip" data-phrase="EXTIRPATION OF CORRUPTED MORTALS">EXTIRPATION</button>
             <button class="chip" data-phrase="TRIGLAVIAN COLLECTIVE">TRIGLAVIAN COLLECTIVE</button>
-            <button class="chip" data-phrase="THE FLOW OF VYRAJK">FLOW OF VYRAJK</button>
+            <button class="chip" data-phrase="ABYSSAL DEADSPACE">ABYSSAL DEADSPACE</button>
           </div>
         </div>
       </div>
@@ -237,20 +245,32 @@
         <!-- Action Bar -->
         <div class="editor-action-bar">
           <div class="left-actions">
-            <button id="btn-copy-latin" class="btn-action">
+            <button id="btn-copy-latin" class="btn-action" title="Copy English input text to clipboard">
               <span>📋</span> Copy English
             </button>
-            <button id="btn-copy-triglavian" class="btn-action">
-              <span>📋</span> Copy Triglavian Unicode
+            <button id="btn-copy-image" class="btn-action btn-primary" title="Copy high-resolution PNG image to clipboard">
+              <span>📸</span> Copy Image to Clipboard
+            </button>
+          </div>
+
+          <div class="middle-options">
+            <button id="btn-toggle-transparent" class="btn-toggle active" title="Toggle Transparent vs Dark Background">
+              <span class="toggle-icon">◻</span> <span id="label-transparent">Transparent BG</span>
+            </button>
+            <button id="btn-toggle-glow" class="btn-toggle active" title="Toggle Plasma Glow effect on/off">
+              <span class="toggle-icon">✨</span> <span id="label-glow">Glow: ON</span>
             </button>
           </div>
 
           <div class="right-actions">
-            <button id="btn-editor-to-3d" class="btn-action btn-primary">
+            <button id="btn-editor-to-3d" class="btn-action" title="Transfer text into real-time 3D Studio">
               <span>🧊</span> Send to 3D Viewer
             </button>
-            <button id="btn-editor-export-svg" class="btn-action">
-              <span>⬇</span> Export Composed SVG
+            <button id="btn-editor-export-svg" class="btn-action" title="Download standalone vector SVG">
+              <span>⬇</span> SVG
+            </button>
+            <button id="btn-editor-export-png" class="btn-action" title="Download rasterized PNG image">
+              <span>⬇</span> PNG
             </button>
           </div>
         </div>
@@ -269,6 +289,9 @@
           </button>
           <button id="btn-toggle-grid" class="view-btn active" title="Toggle Floor Grid">
             <span>⊞</span> Grid Floor
+          </button>
+          <button id="btn-cycle-light" class="view-btn" title="Cycle Lighting Setup">
+            <span>💡</span> <span id="label-active-light">Studio Wide</span>
           </button>
           <button id="btn-reset-cam" class="view-btn" title="Reset Camera View">
             <span>⊙</span> Reset View
@@ -308,7 +331,7 @@
               class="input-field" 
               placeholder="Type text (e.g. KYBERNAUT)" 
               value="TRIGLAVIAN" 
-              maxlength="24"
+              maxlength="64"
               spellcheck="false"
             />
           </div>
@@ -365,6 +388,51 @@
               <span class="preset-dot" style="background: #ff3b52;"></span>
               Holographic Wireframe
             </button>
+          </div>
+        </div>
+
+        <!-- Lighting Rig Card -->
+        <div class="panel-card">
+          <div class="card-title">
+            <span>Lighting Rig</span>
+            <span class="indicator">●</span>
+          </div>
+
+          <!-- Lighting Preset Selector -->
+          <div class="preset-grid" style="margin-bottom: 0.9rem;">
+            <button class="light-preset-btn active" data-light="studio">
+              <span class="preset-dot" style="background: #ffffff; box-shadow: 0 0 6px #ffffff;"></span>
+              Studio Wide
+            </button>
+            <button class="light-preset-btn" data-light="abyssal">
+              <span class="preset-dot" style="background: #ff1e38; box-shadow: 0 0 6px #ff1e38;"></span>
+              Abyssal Noir
+            </button>
+            <button class="light-preset-btn" data-light="horizon">
+              <span class="preset-dot" style="background: #eef4ff; box-shadow: 0 0 6px #90b8ff;"></span>
+              Broad Horizon
+            </button>
+            <button class="light-preset-btn" data-light="neon">
+              <span class="preset-dot" style="background: linear-gradient(45deg, #ff1e38, #00f0ff); box-shadow: 0 0 6px #00f0ff;"></span>
+              Dual Chroma
+            </button>
+          </div>
+
+          <!-- Intensity / Exposure Slider -->
+          <div class="control-row">
+            <div class="control-label">
+              <span>Lighting Intensity</span>
+              <span id="val-light-intensity" class="control-value">1.4x</span>
+            </div>
+            <input type="range" id="slider-light-intensity" min="0.5" max="3.0" step="0.1" value="1.4">
+          </div>
+
+          <!-- Camera Follow Headlight Toggle -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.06);">
+            <span style="font-family: var(--font-tech); font-size: 0.85rem; color: var(--text-muted);">
+              Camera Headlight (Front):
+            </span>
+            <button id="btn-toggle-headlight" class="mode-pill active">ENABLED</button>
           </div>
         </div>
 
@@ -505,6 +573,18 @@
           </button>
         </div>
       </div>
+
+      <!-- Donation & Community Support Banner -->
+      <div class="donation-banner">
+        <div class="donation-icon">🪙</div>
+        <div class="donation-content">
+          <div class="donation-title">SUPPORT EVE COLLECTIVE</div>
+          <div class="donation-desc">
+            This toolkit is open-source software built for the EVE Online community.
+            In-kind or ISK donations are warmly welcomed to support continuous development &bull; please send in-game to the <strong>EVE-Collective</strong> corporation.
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -514,7 +594,10 @@
   <!-- Footer / Lore & Property Disclaimers -->
   <footer class="app-footer">
     <div class="footer-credits">
-      Deciphered by <strong>Arataka Research Consortium (ARC)</strong> &bull; Original Typography & Lore Copyright &copy; 2018 CCP hf.
+      Developed by <a href="https://github.com/eve-collective/eve-triglavian" target="_blank" rel="noopener noreferrer" class="footer-github-link"><strong>EVE Collective</strong></a> &bull; Deciphered by <strong>Arataka Research Consortium (ARC)</strong> &bull; Original Typography & Lore Copyright &copy; 2018 CCP hf.
+    </div>
+    <div class="footer-donation">
+      <span>🪙</span> In-kind or ISK donations welcomed &bull; send in-game to <strong>EVE-Collective</strong> corporation
     </div>
     <div class="footer-disclaimer">
       EVE Online, the EVE logo, and all associated logos and designs are the intellectual property of CCP hf. and Fenris Corporation. 

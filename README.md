@@ -6,9 +6,9 @@ Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf
 
 ---
 
-## ⚡ What's New: The 2D/3D Geometric Pivot
+## ✨ Features & Architecture
 
-Previous iterations relied on manual raster tracing and heuristic TrueType (`.ttf`) compilation. With the discovery of the authoritative source font, this project pivots to a **pure computational geometry and 3D modeling engine**:
+Built as a **computational geometry, 2D vector, and 3D modeling engine**:
 
 - **Exact Canonical Geometry:** All 81 characters are represented as clean, closed, non-self-intersecting 2D polygons with outer shells and interior holes.
 - **Identical Stroke & Depth:** Every character shares the same canonical stroke width ($44\text{ UPM}$ on a $1000\text{ UPM}$ coordinate system) and uniform extrusion depth ($50\text{ UPM}$).

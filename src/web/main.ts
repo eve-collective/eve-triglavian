@@ -971,11 +971,19 @@ function setupEventListeners() {
     showToast(`Switched lighting: ${currentLightPreset.toUpperCase()}`, '💡');
   });
 
+  function getStudioExportBaseName(): string {
+    if (currentMode === 'single') {
+      return getGlyphSafeName(currentChar);
+    }
+    const cleanSlug = currentText.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 32);
+    return `triglavian_${cleanSlug || 'composed'}`;
+  }
+
   // Export 3D Models
   document.getElementById('btn-export-glb')!.addEventListener('click', async () => {
     if (!currentObject) return;
     const buf = await exportToGLB(currentObject);
-    const name = currentMode === 'single' ? getGlyphSafeName(currentChar) : 'triglavian_text';
+    const name = getStudioExportBaseName();
     triggerDownload(new Blob([buf], { type: 'model/gltf-binary' }), `${name}.glb`);
     showToast(`Exported ${name}.glb`, '⬇');
   });
@@ -983,7 +991,7 @@ function setupEventListeners() {
   document.getElementById('btn-export-obj')!.addEventListener('click', () => {
     if (!currentObject) return;
     const objStr = exportToOBJ(currentObject);
-    const name = currentMode === 'single' ? getGlyphSafeName(currentChar) : 'triglavian_text';
+    const name = getStudioExportBaseName();
     triggerDownload(new Blob([objStr], { type: 'text/plain' }), `${name}.obj`);
     showToast(`Exported ${name}.obj`, '⬇');
   });
@@ -991,14 +999,20 @@ function setupEventListeners() {
   document.getElementById('btn-export-stl')!.addEventListener('click', () => {
     if (!currentObject) return;
     const stlStr = exportToSTL(currentObject);
-    const name = currentMode === 'single' ? getGlyphSafeName(currentChar) : 'triglavian_text';
+    const name = getStudioExportBaseName();
     triggerDownload(new Blob([stlStr as string], { type: 'text/plain' }), `${name}.stl`);
     showToast(`Exported ${name}.stl`, '⬇');
   });
 
   document.getElementById('btn-export-svg')!.addEventListener('click', () => {
-    const svgStr = generateSvg(currentChar);
-    const name = getGlyphSafeName(currentChar);
+    const name = getStudioExportBaseName();
+    let svgStr: string;
+    if (currentMode === 'single') {
+      svgStr = generateSvg(currentChar, { fill: '#FF1E38', width: 1000, height: 1000 });
+    } else {
+      const text = currentText.trim() || 'TRIGLAVIAN';
+      svgStr = generateTextSvg(text, { fill: '#FF1E38' });
+    }
     triggerDownload(new Blob([svgStr], { type: 'image/svg+xml' }), `${name}.svg`);
     showToast(`Exported ${name}.svg`, '⬇');
   });
@@ -1024,7 +1038,7 @@ function setupEventListeners() {
     setTimeout(() => {
       const files = ALL_CHARACTERS.map(char => ({
         filename: `${getGlyphSafeName(char)}.svg`,
-        data: generateSvg(char, { fill: '#FFFFFF' })
+        data: generateSvg(char, { fill: '#FF1E38', width: 1000, height: 1000 })
       }));
       const zipBlob = createZipArchive(files);
       triggerDownload(zipBlob, 'triglavian-svgs.zip');

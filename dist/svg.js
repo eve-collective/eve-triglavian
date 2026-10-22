@@ -28,10 +28,10 @@ export function generateSvgPath(char) {
  * Generate full SVG document string for a single character.
  */
 export function generateSvg(char, options = {}) {
-    const fill = options.fill ?? '#FFFFFF';
+    const fill = options.fill ?? '#FF1E38';
     const viewBox = options.viewBox ?? '0 0 1000 1000';
-    const width = options.width ?? '100%';
-    const height = options.height ?? '100%';
+    const width = options.width ?? 1000;
+    const height = options.height ?? 1000;
     const className = options.className ? ` class="${options.className}"` : '';
     const pathD = generateSvgPath(char);
     const unicodeHex = `U+${char.charCodeAt(0).toString(16).toUpperCase().padStart(4, '0')}`;

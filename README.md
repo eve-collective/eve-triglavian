@@ -21,7 +21,7 @@ Built as a **computational geometry, 2D vector, and 3D modeling engine**:
   - **Stereolithography (`dist/stl/`):** 81 watertight solids optimized for **3D printing** and physical fabrication.
   - **Three.js Typeface (`dist/triglavian.typeface.json`):** Full JSON font for native Three.js `FontLoader` and `TextGeometry`.
 - **Procedural Three.js Engine:** Programmatically generate meshes, extrusions, custom bevels, and multi-character composed 3D text strings in real time.
-- **Interactive 3D Web Visualizer Studio:** A rich dark-mode WebGL application featuring real-time orbital controls, material shaders (*Obsidian*, *Plasma*, *Titanium*, *Gold*, *Wireframe*), live text composition, and one-click asset downloads.
+- **Interactive 3D Web Visualizer Studio:** A rich dark-mode WebGL application featuring real-time orbital controls, material shaders (_Obsidian_, _Plasma_, _Titanium_, _Gold_, _Wireframe_), live text composition, and one-click asset downloads.
 
 ---
 
@@ -70,36 +70,36 @@ Open `http://localhost:3000` to inspect any character in 3D, customize extrusion
 The library provides native Three.js objects, pure SVG generators, and multi-format exporters:
 
 ```typescript
-import * as THREE from 'three';
+import * as THREE from "three";
 import {
   createTriglavianMesh,
   createTriglavianTextGroup,
   generateSvg,
   exportToGLB,
   exportToOBJ,
-  exportToSTL
-} from 'eve-triglavian';
+  exportToSTL,
+} from "eve-triglavian";
 
 // 1. Create a 3D Mesh for a single character
-const mesh = createTriglavianMesh('A', {
+const mesh = createTriglavianMesh("A", {
   depth: 60,
   bevelThickness: 3,
   bevelSize: 2,
-  materialPreset: 'plasma' // 'obsidian' | 'plasma' | 'titanium' | 'gold' | 'wireframe'
+  materialPreset: "plasma", // 'obsidian' | 'plasma' | 'titanium' | 'gold' | 'wireframe'
 });
 scene.add(mesh);
 
 // 2. Compose a 3D text string with auto-spacing and centering
-const textGroup = createTriglavianTextGroup('KYBERNAUT', {
+const textGroup = createTriglavianTextGroup("KYBERNAUT", {
   spacing: 220,
   scale: 0.002,
   depth: 50,
-  materialPreset: 'obsidian'
+  materialPreset: "obsidian",
 });
 scene.add(textGroup);
 
 // 3. Generate standalone SVG markup
-const svgXml = generateSvg('Z', { fill: '#FF2244', width: 512, height: 512 });
+const svgXml = generateSvg("Z", { fill: "#FF2244", width: 512, height: 512 });
 
 // 4. Headless 3D Exporting (Node.js or Browser)
 const glbBuffer = await exportToGLB(mesh);
@@ -112,17 +112,17 @@ const stlText = exportToSTL(mesh);
 The bundled `dist/triglavian.typeface.json` works directly with standard Three.js text rendering:
 
 ```typescript
-import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
-import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
 const loader = new FontLoader();
-loader.load('./dist/triglavian.typeface.json', (font) => {
-  const geometry = new TextGeometry('TRIGLAV', {
+loader.load("./dist/triglavian.typeface.json", (font) => {
+  const geometry = new TextGeometry("TRIGLAV", {
     font: font,
     size: 80,
     depth: 20,
     curveSegments: 1,
-    bevelEnabled: false
+    bevelEnabled: false,
   });
   const textMesh = new THREE.Mesh(geometry, material);
   scene.add(textMesh);
@@ -198,6 +198,7 @@ pnpm test
 ```
 
 The test suite validates:
+
 - Character set completeness (81 canonical glyphs across 7 categories)
 - Deterministic filesystem-safe naming conventions
 - SVG validity, path attributes, and winding rules
@@ -210,8 +211,9 @@ The test suite validates:
 
 ## 🪙 Donations & Support
 
-This project is free and open-source software built for the *EVE Online* community. In-kind or ISK donations are warmly welcomed to support ongoing open-source tool development:
-- **In-Game Donations (ISK / Assets):** Send to the **`EVE Collective`** corporation in *EVE Online*.
+This project is free and open-source software built for the _EVE Online_ community. In-kind or ISK donations are warmly welcomed to support ongoing open-source tool development:
+
+- **In-Game Donations (ISK / Assets):** Send to character [**`Kavir`**](https://evewho.com/character/1324957190).
 
 ---
 

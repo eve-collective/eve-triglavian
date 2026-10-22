@@ -1609,6 +1609,22 @@ body {
   color: #ff3b52;
 }
 
+.donation-link {
+  color: #ff3b52;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.donation-link:hover {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 59, 82, 0.6);
+}
+
+.donation-link:hover strong {
+  color: #fff;
+}
+
 .footer-donation {
   margin-top: 0.5rem;
   font-family: var(--font-tech);

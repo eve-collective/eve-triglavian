@@ -286,9 +286,6 @@
           <button id="btn-toggle-grid" class="view-btn active" title="Toggle Floor Grid">
             <span>⊞</span> Grid Floor
           </button>
-          <button id="btn-cycle-light" class="view-btn" title="Cycle Lighting Setup">
-            <span>💡</span> <span id="label-active-light">Studio Wide</span>
-          </button>
           <button id="btn-reset-cam" class="view-btn" title="Reset Camera View">
             <span>⊙</span> Reset View
           </button>
@@ -303,7 +300,7 @@
         <!-- Mode Selection -->
         <div class="panel-card">
           <div class="card-title">
-            <span>Mode Selection</span>
+            <span>Input Mode</span>
             <span class="indicator">●</span>
           </div>
           <div class="tab-group">
@@ -313,9 +310,10 @@
 
           <!-- Single Char Focus Info -->
           <div id="single-char-controls">
-            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
-              Active Glyph: <strong id="current-char-display" style="color: var(--accent-red); font-size: 1.1rem;">A</strong>
-              <div style="margin-top: 0.25rem;">Select any character from the Overview Matrix or type below.</div>
+            <div class="single-char-row">
+              <span>Active Glyph:</span>
+              <strong id="current-char-display">A</strong>
+              <span class="single-char-sub">Click matrix card to switch</span>
             </div>
           </div>
 
@@ -340,27 +338,29 @@
             <span class="indicator">●</span>
           </div>
 
-          <div class="control-row">
-            <div class="control-label">
-              <span>Extrusion Depth</span>
-              <span id="val-depth" class="control-value">50 UPM</span>
+          <div class="geometry-grid">
+            <div class="control-row">
+              <div class="control-label">
+                <span>Depth</span>
+                <span id="val-depth" class="control-value">50 UPM</span>
+              </div>
+              <input type="range" id="slider-depth" min="10" max="150" step="5" value="50">
             </div>
-            <input type="range" id="slider-depth" min="10" max="150" step="5" value="50">
-          </div>
 
-          <div class="control-row">
-            <div class="control-label">
-              <span>Bevel Thickness</span>
-              <span id="val-bevel" class="control-value">4 UPM</span>
+            <div class="control-row">
+              <div class="control-label">
+                <span>Bevel</span>
+                <span id="val-bevel" class="control-value">4 UPM</span>
+              </div>
+              <input type="range" id="slider-bevel" min="0" max="12" step="1" value="4">
             </div>
-            <input type="range" id="slider-bevel" min="0" max="12" step="1" value="4">
           </div>
         </div>
 
         <!-- Material Presets -->
         <div class="panel-card">
           <div class="card-title">
-            <span>Material Presets</span>
+            <span>Materials</span>
             <span class="indicator">●</span>
           </div>
           <div class="preset-grid">
@@ -391,11 +391,11 @@
         <div class="panel-card">
           <div class="card-title">
             <span>Lighting Rig</span>
-            <span class="indicator">●</span>
+            <button id="btn-toggle-headlight" class="mode-pill active" title="Toggle camera frontal headlight">ENABLED</button>
           </div>
 
           <!-- Lighting Preset Selector -->
-          <div class="preset-grid" style="margin-bottom: 0.9rem;">
+          <div class="preset-grid" style="margin-bottom: 0.45rem;">
             <button class="light-preset-btn active" data-light="studio">
               <span class="preset-dot" style="background: #ffffff; box-shadow: 0 0 6px #ffffff;"></span>
               Studio Wide
@@ -417,18 +417,10 @@
           <!-- Intensity / Exposure Slider -->
           <div class="control-row">
             <div class="control-label">
-              <span>Lighting Intensity</span>
+              <span>Intensity</span>
               <span id="val-light-intensity" class="control-value">1.4x</span>
             </div>
             <input type="range" id="slider-light-intensity" min="0.5" max="3.0" step="0.1" value="1.4">
-          </div>
-
-          <!-- Camera Follow Headlight Toggle -->
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.06);">
-            <span style="font-family: var(--font-tech); font-size: 0.85rem; color: var(--text-muted);">
-              Camera Headlight (Front):
-            </span>
-            <button id="btn-toggle-headlight" class="mode-pill active">ENABLED</button>
           </div>
         </div>
 

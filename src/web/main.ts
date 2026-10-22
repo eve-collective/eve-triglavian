@@ -961,15 +961,6 @@ function setupEventListeners() {
     showToast(`Camera Headlight: ${headlightEnabled ? 'ENABLED' : 'DISABLED'}`, '💡');
   });
 
-  // Viewport Quick Cycle Button
-  const cycleLightBtn = document.getElementById('btn-cycle-light');
-  cycleLightBtn?.addEventListener('click', () => {
-    const presets: LightPreset[] = ['studio', 'abyssal', 'horizon', 'neon'];
-    const nextIdx = (presets.indexOf(currentLightPreset) + 1) % presets.length;
-    currentLightPreset = presets[nextIdx];
-    applyLightingPreset();
-    showToast(`Switched lighting: ${currentLightPreset.toUpperCase()}`, '💡');
-  });
 
   function getStudioExportBaseName(): string {
     if (currentMode === 'single') {

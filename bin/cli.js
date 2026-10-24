@@ -48,6 +48,18 @@ async function run() {
       await fs.writeFile(path.join(objDir, `${safe}.obj`), exportToOBJ(mesh));
       await fs.writeFile(path.join(stlDir, `${safe}.stl`), String(exportToSTL(mesh)));
     }
+    // Webfonts & Stylesheet
+    const fontFiles = ['triglavian.otf', 'triglavian.woff2', 'triglavian.woff', 'triglavian.css'];
+    for (const file of fontFiles) {
+      try {
+        const srcFile = path.resolve(import.meta.dirname, '..', 'dist', file);
+        await fs.copyFile(srcFile, path.join(outDir, file));
+      } catch {
+        // Fallback if not found
+      }
+    }
+    console.log(`  ✓ Webfont suite (WOFF2, WOFF, OTF, CSS) copied to ${outDir}`);
+
     console.log(`  ✓ 81 3D models (GLB, OBJ, STL) written to ${outDir}`);
     console.log('✨ Build complete!');
     return;
@@ -62,7 +74,7 @@ async function run() {
   if (command === 'info') {
     console.log('EVE Online Triglavian Geometric Typography Toolkit');
     console.log(`Total glyphs: ${ALL_CHARACTERS.length}`);
-    console.log('Available formats: SVG (2D), GLB/OBJ/STL (3D), Three.js Typeface JSON');
+    console.log('Available formats: WOFF2, WOFF, OTF, Three.js Typeface JSON, SVG (2D), GLB/OBJ/STL (3D)');
     return;
   }
 

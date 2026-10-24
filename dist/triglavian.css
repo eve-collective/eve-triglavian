@@ -1,0 +1,24 @@
+/**
+ * EVE Online Triglavian Collective Script
+ * Canonical OpenType & WebFont Distribution (WOFF2, WOFF, OTF)
+ * Repository: https://github.com/eve-collective/eve-triglavian
+ * License: MIT
+ */
+
+@font-face {
+  font-family: 'Triglavian';
+  src: url('./triglavian.woff2') format('woff2'),
+       url('./triglavian.woff') format('woff'),
+       url('./triglavian.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.triglavian-font,
+.triglavian-text,
+.font-triglavian {
+  font-family: 'Triglavian', -apple-system, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}

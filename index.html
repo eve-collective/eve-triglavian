@@ -76,7 +76,7 @@
             <span>🧊</span> Launch 3D Geometry Viewer
           </button>
           <button class="btn-hero btn-hero-outline" data-nav="downloads">
-            <span>⬇</span> Resource Downloads (.OTF, JSON, 3D)
+            <span>⬇</span> Resource Downloads (WOFF2, OTF, 3D)
           </button>
         </div>
       </div>
@@ -95,7 +95,7 @@
           <div class="stat-label">UPM Stroke Width</div>
         </div>
         <div class="stat-pill">
-          <div class="stat-number">5</div>
+          <div class="stat-number">6+</div>
           <div class="stat-label">Export Formats</div>
         </div>
       </div>
@@ -196,7 +196,7 @@
 
           <div class="display-mode-selector">
             <span class="mode-label">Render Mode:</span>
-            <button id="btn-mode-font" class="mode-pill active">Authentic OpenType Font</button>
+            <button id="btn-mode-font" class="mode-pill active">Webfont (WOFF2 / OTF)</button>
             <button id="btn-mode-vector" class="mode-pill">Vector Glyphs (SVG)</button>
           </div>
         </div>
@@ -443,9 +443,12 @@
             <button id="btn-export-svg" class="btn-action">
               <span>⬇</span> 2D Vector (.SVG)
             </button>
-            <button id="btn-export-font" class="btn-action" style="grid-column: span 2;">
-              <span>⬇</span> Three.js Font (Typeface JSON)
+            <button id="btn-export-font" class="btn-action">
+              <span>⬇</span> Three.js JSON
             </button>
+            <a href="./triglavian.woff2" download="triglavian.woff2" class="btn-action" style="text-decoration: none; justify-content: center;">
+              <span>⬇</span> Webfont (.WOFF2)
+            </a>
           </div>
         </div>
       </aside>
@@ -461,32 +464,62 @@
       </div>
 
       <div class="download-cards-grid">
-        <!-- Card 1: OpenType Font -->
+        <!-- Card 1: Modern Webfont Suite -->
+        <div class="download-card" style="border-color: rgba(255, 30, 56, 0.45); box-shadow: 0 4px 20px rgba(255, 30, 56, 0.15);">
+          <div class="card-icon">⚡</div>
+          <div class="card-header">
+            <h3>Modern Webfont Suite</h3>
+            <span class="file-tag">.WOFF2 &bull; 6.7 KB</span>
+          </div>
+          <p class="card-description">
+            Brotli-compressed webfont optimized for websites, webapps, and digital dashboards. Includes legacy WOFF 1.0 fallback and ready-to-use CSS stylesheet.
+          </p>
+          <ul class="card-specs">
+            <li>✓ <strong>WOFF2 (6.7 KB)</strong> &bull; Ultra-compact Brotli payload</li>
+            <li>✓ <strong>WOFF (9.7 KB)</strong> &bull; Legacy browser fallback</li>
+            <li>✓ 81 Canonical Graphemes (A-Z, a-z, 0-9, Symbols)</li>
+          </ul>
+          <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto;">
+            <a href="./triglavian.woff2" download="triglavian.woff2" class="btn-action btn-primary download-trigger" style="margin-top: 0;">
+              <span>⬇</span> Download WOFF2 (6.7 KB)
+            </a>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <a href="./triglavian.woff" download="triglavian.woff" class="btn-action download-trigger" style="margin-top: 0; font-size: 0.85rem; padding: 0.55rem;">
+                <span>⬇</span> WOFF (9.7 KB)
+              </a>
+              <a href="./triglavian.css" download="triglavian.css" class="btn-action download-trigger" style="margin-top: 0; font-size: 0.85rem; padding: 0.55rem;">
+                <span>⬇</span> triglavian.css
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: OpenType Font -->
         <div class="download-card">
           <div class="card-icon">🔤</div>
           <div class="card-header">
-            <h3>Canonical OpenType Font</h3>
+            <h3>Desktop OpenType Font</h3>
             <span class="file-tag">.OTF &bull; 14 KB</span>
           </div>
           <p class="card-description">
-            The authoritative OpenType font file containing all 81 glyphs. Installable directly on macOS, Windows, and Linux. Compatible with Figma, Adobe Photoshop, Illustrator, Word, Blender, and Web CSS.
+            The authoritative OpenType font file containing all 81 glyphs. Installable directly on macOS, Windows, and Linux. Compatible with Figma, Adobe Photoshop, Illustrator, Word, Blender, and 3D packages.
           </p>
           <ul class="card-specs">
             <li>✓ 81 Canonical Graphemes (A-Z, a-z, 0-9, Symbols)</li>
             <li>✓ Exact 60° / 120° Equilateral Geometry</li>
-            <li>✓ Universal Standard advance width</li>
+            <li>✓ Desktop OS & Adobe / Figma system install</li>
           </ul>
           <a href="./triglavian.otf" download="triglavian.otf" class="btn-action btn-primary download-trigger">
-            <span>⬇</span> Download triglavian.otf
+            <span>⬇</span> Download triglavian.otf (14 KB)
           </a>
         </div>
 
-        <!-- Card 2: Three.js Typeface JSON -->
+        <!-- Card 3: Three.js Typeface JSON -->
         <div class="download-card">
           <div class="card-icon">🌐</div>
           <div class="card-header">
             <h3>Three.js Typeface JSON</h3>
-            <span class="file-tag">.JSON &bull; 11 KB</span>
+            <span class="file-tag">.JSON &bull; 19 KB</span>
           </div>
           <p class="card-description">
             Web-ready JSON font definition specifically formatted for Three.js <code>FontLoader</code> and <code>TextGeometry</code> procedural 3D text generation in WebGL environments.
@@ -501,7 +534,7 @@
           </button>
         </div>
 
-        <!-- Card 3: 2D Vector SVGs Archive -->
+        <!-- Card 4: 2D Vector SVGs Archive -->
         <div class="download-card">
           <div class="card-icon">📐</div>
           <div class="card-header">
@@ -521,7 +554,7 @@
           </button>
         </div>
 
-        <!-- Card 4: 3D Printable STL Meshes -->
+        <!-- Card 5: 3D Printable STL Meshes -->
         <div class="download-card">
           <div class="card-icon">🖨️</div>
           <div class="card-header">
@@ -541,7 +574,7 @@
           </button>
         </div>
 
-        <!-- Card 5: Game Engine 3D Assets (GLB/OBJ) -->
+        <!-- Card 6: Game Engine 3D Assets (GLB/OBJ) -->
         <div class="download-card">
           <div class="card-icon">🎮</div>
           <div class="card-header">
@@ -559,6 +592,115 @@
           <button class="btn-action download-trigger" data-nav="viewer">
             <span>🧊</span> Open 3D Studio to Export GLB
           </button>
+        </div>
+      </div>
+
+      <!-- Web CDN & Embed Hub -->
+      <div class="cdn-embed-section">
+        <div class="cdn-header">
+          <div class="cdn-badge">GLOBAL EDGE CDN &bull; CORS ENABLED</div>
+          <h3>Web Application CDN & Quick Integration</h3>
+          <p>
+            Embed the canonical Triglavian font directly into your web applications using global edge CDNs.
+            All CDN endpoints support <code>Access-Control-Allow-Origin: *</code> out of the box with zero configuration.
+          </p>
+        </div>
+
+        <div class="cdn-grid">
+          <!-- CDN 1: jsDelivr -->
+          <div class="cdn-card">
+            <div class="cdn-card-header">
+              <div class="cdn-service">
+                <span class="cdn-icon">⚡</span>
+                <div>
+                  <h4>jsDelivr Multi-CDN</h4>
+                  <span class="cdn-sub">Cloudflare + Fastly Edge &bull; 100% Free &bull; No Account Needed</span>
+                </div>
+              </div>
+              <span class="file-tag">Recommended</span>
+            </div>
+            <p class="cdn-desc">
+              jsDelivr automatically mirrors this public GitHub repository across global edge nodes. You do <strong>not</strong> need an account or API key.
+            </p>
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <span>HTML &lt;link&gt; Tag (Recommended)</span>
+                <button class="btn-copy-code" data-clipboard="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.css&quot;&gt;">Copy</button>
+              </div>
+              <pre><code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.css"&gt;</code></pre>
+            </div>
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <span>Direct WOFF2 URL</span>
+                <button class="btn-copy-code" data-clipboard="https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff2">Copy</button>
+              </div>
+              <pre><code>https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff2</code></pre>
+            </div>
+          </div>
+
+          <!-- CDN 2: GitHub Pages -->
+          <div class="cdn-card">
+            <div class="cdn-card-header">
+              <div class="cdn-service">
+                <span class="cdn-icon">🌐</span>
+                <div>
+                  <h4>GitHub Pages CDN</h4>
+                  <span class="cdn-sub">Direct Live Studio Origin &bull; Fastly Edge</span>
+                </div>
+              </div>
+              <span class="file-tag">Live Origin</span>
+            </div>
+            <p class="cdn-desc">
+              Directly served from the official live deployment on GitHub Pages. Ideal for static archives and community projects.
+            </p>
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <span>HTML &lt;link&gt; Tag</span>
+                <button class="btn-copy-code" data-clipboard="&lt;link rel=&quot;stylesheet&quot; href=&quot;https://eve-collective.github.io/eve-triglavian/triglavian.css&quot;&gt;">Copy</button>
+              </div>
+              <pre><code>&lt;link rel="stylesheet" href="https://eve-collective.github.io/eve-triglavian/triglavian.css"&gt;</code></pre>
+            </div>
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <span>Direct WOFF2 URL</span>
+                <button class="btn-copy-code" data-clipboard="https://eve-collective.github.io/eve-triglavian/triglavian.woff2">Copy</button>
+              </div>
+              <pre><code>https://eve-collective.github.io/eve-triglavian/triglavian.woff2</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- CSS Implementation Snippet -->
+        <div class="cdn-css-card">
+          <div class="code-header">
+            <span>Vanilla CSS @font-face Implementation</span>
+            <button class="btn-copy-code" data-clipboard="@font-face {
+  font-family: 'Triglavian';
+  src: url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.triglavian {
+  font-family: 'Triglavian', sans-serif;
+}">Copy CSS</button>
+          </div>
+          <pre><code>@font-face {
+  font-family: 'Triglavian';
+  src: url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.triglavian {
+  font-family: 'Triglavian', sans-serif;
+}</code></pre>
         </div>
       </div>
 

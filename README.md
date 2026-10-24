@@ -15,6 +15,8 @@ Built as a **computational geometry, 2D vector, and 3D modeling engine**:
 - **Exact Canonical Geometry:** All 81 characters are represented as clean, closed, non-self-intersecting 2D polygons with outer shells and interior holes.
 - **Identical Stroke & Depth:** Every character shares the same canonical stroke width ($44\text{ UPM}$ on a $1000\text{ UPM}$ coordinate system) and uniform extrusion depth ($50\text{ UPM}$).
 - **Multi-Format 2D & 3D Exports:**
+  - **Modern Webfont (`dist/triglavian.woff2`, `dist/triglavian.woff`, `dist/triglavian.css`):** Ultralight 6.7 KB Brotli-compressed webfont with legacy WOFF fallback and instant CSS `@font-face` stylesheet.
+  - **OpenType Specimen (`dist/triglavian.otf`):** 14 KB authoritative desktop font for macOS, Windows, Linux, Figma, Adobe, and Blender.
   - **SVG (`dist/svg/`):** 81 lightweight, resolution-independent vector glyphs with `evenodd` winding.
   - **Binary glTF (`dist/glb/`):** 81 ready-to-render 3D models with pre-computed vertex normals and PBR materials.
   - **Wavefront OBJ (`dist/obj/`):** 81 universal polygon meshes for Blender, Maya, Unity, Unreal Engine, and WebGL.
@@ -131,6 +133,58 @@ loader.load("./dist/triglavian.typeface.json", (font) => {
 
 ---
 
+## 🌐 Web Applications & CDN Integration (WOFF2 / WOFF / CSS)
+
+You can embed the authentic Triglavian script directly into any website, blog, or web application using modern webfonts (`.woff2` / `.woff`) delivered via global edge CDNs.
+
+### ⚡ Option 1: jsDelivr Multi-CDN (Fastly + Cloudflare) — *Recommended*
+
+> [!NOTE]
+> **Do I need an account at jsDelivr?**
+> **No!** jsDelivr is 100% free, open-source, and permissionless. It automatically proxies any public GitHub repository or npm package. It serves files with `Access-Control-Allow-Origin: *` headers, so you never encounter cross-origin font blocking (CORS) errors.
+
+**HTML `<link>` Tag:**
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.css">
+```
+
+**CSS `@import`:**
+```css
+@import url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.css');
+
+.triglavian-text {
+  font-family: 'Triglavian', -apple-system, sans-serif;
+}
+```
+
+### 🌐 Option 2: GitHub Pages CDN (Live Origin)
+
+```html
+<link rel="stylesheet" href="https://eve-collective.github.io/eve-triglavian/triglavian.css">
+```
+
+### 🎨 Option 3: Custom `@font-face` Integration
+
+If you prefer referencing the font binaries directly in your stylesheet:
+
+```css
+@font-face {
+  font-family: 'Triglavian';
+  src: url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff2') format('woff2'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.woff') format('woff'),
+       url('https://cdn.jsdelivr.net/gh/eve-collective/eve-triglavian@main/dist/triglavian.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.triglavian {
+  font-family: 'Triglavian', sans-serif;
+}
+```
+
+---
+
 ## 🛠️ CLI Tooling
 
 The package includes a command-line interface executable via `pnpm exec` or `npx`:
@@ -157,7 +211,10 @@ eve-triglavian/
 ├── bin/
 │   └── cli.js                     # Global executable CLI (npx eve-triglavian)
 ├── dist/                          # Canonical compiled 2D & 3D asset distribution
-│   ├── triglavian.otf             # Authoritative OpenType font specimen
+│   ├── triglavian.woff2           # Modern compressed webfont (Brotli, 6.7 KB)
+│   ├── triglavian.woff            # Standard webfont (9.7 KB)
+│   ├── triglavian.otf             # Authoritative OpenType font specimen (14 KB)
+│   ├── triglavian.css             # Instant @font-face stylesheet & utility classes
 │   ├── svg/                       # 81 standalone vector SVGs (lower_*, upper_*, num_*, sym_*)
 │   ├── glb/                       # 81 binary glTF 3D models with PBR materials
 │   ├── obj/                       # 81 Wavefront OBJ polygon meshes

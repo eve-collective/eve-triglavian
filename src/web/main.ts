@@ -1036,6 +1036,29 @@ function setupEventListeners() {
       showToast('Downloaded triglavian-svgs.zip (81 glyphs)', '⬇');
     }, 50);
   });
+
+  // Copy buttons for CDN code snippets
+  document.querySelectorAll('.btn-copy-code').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const target = e.currentTarget as HTMLElement;
+      const textToCopy = target.dataset.clipboard || target.closest('.code-block-wrapper, .cdn-css-card')?.querySelector('pre code')?.textContent || '';
+      if (!textToCopy) return;
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        const originalText = target.textContent;
+        target.textContent = 'Copied!';
+        target.style.background = 'var(--accent-orange)';
+        showToast('Copied embed snippet to clipboard', '📋');
+        setTimeout(() => {
+          target.textContent = originalText;
+          target.style.background = '';
+        }, 2000);
+      } catch {
+        showToast('Unable to copy to clipboard', '⚠');
+      }
+    });
+  });
 }
 
 function syncModeUI() {

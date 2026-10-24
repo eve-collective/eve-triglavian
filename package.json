@@ -14,7 +14,10 @@
       "types": "./dist/index.d.ts"
     },
     "./typeface": "./dist/triglavian.typeface.json",
-    "./font": "./dist/triglavian.otf"
+    "./font": "./dist/triglavian.otf",
+    "./woff2": "./dist/triglavian.woff2",
+    "./woff": "./dist/triglavian.woff",
+    "./css": "./dist/triglavian.css"
   },
   "bin": {
     "eve-triglavian": "./bin/cli.js"
@@ -50,6 +53,7 @@
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
-    "vitest": "^5.0.5"
+    "vitest": "^5.0.5",
+    "wawoff2": "^2.0.1"
   }
 }

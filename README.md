@@ -4,7 +4,7 @@
 
 A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
-Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`, `Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`) created by **CCP Games (CCP hf.)**, which served as the basis for the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
+Derived directly from **CCP Games' canonical OpenType font specimen** (`dist/triglavian.otf`, `Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`), unearthed by the **Arataka Research Consortium (ARC)**.
 
 ---
 
@@ -277,7 +277,7 @@ This project is free and open-source software built for the _EVE Online_ communi
 ## 🙏 Credits & Acknowledgments
 
 - **CCP Games (CCP hf.):** Original creators of the Triglavian typography, lore, and canonical OpenType font specimen (`Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`).
-- **Arataka Research Consortium (ARC):** Deep appreciation to the Arataka Research Consortium for their monumental in-game cryptographic analysis, grapheme decoding, and documentation (`triglavian_grapheme_samples // crossreference TD-1`). Their work established the canonical foundation for Triglavian research across New Eden.
+- **Arataka Research Consortium (ARC):** Deep appreciation to the Arataka Research Consortium for unearthing, archiving, and cataloging the canonical font specimen and grapheme samples across New Eden.
 
 ---
 
@@ -289,9 +289,27 @@ This repository is an unofficial, non-commercial community research and typograp
 
 ---
 
-## 📄 License
+## 📄 License & Asset Usage Guidelines
 
-This repository uses a split licensing model:
+This repository uses a **split licensing model** to separate the open-source software tooling from CCP Games' copyrighted character intellectual property:
 
-- **Software & Tooling (Code):** The TypeScript library, procedural geometry algorithms, 3D mesh exporters, shaders, and web applications are licensed under the [MIT License](LICENSE).
-- **Game Assets & Triglavian Typography:** The Triglavian script, character glyph geometry, and original OpenType font file (`dist/triglavian.otf`) are `Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.` Distributed for non-commercial community, fan-art, and educational purposes in accordance with CCP Games' community guidelines.
+| Component | License / Rights | Permitted Usage |
+| :--- | :--- | :--- |
+| **Software & Tooling (Code)**<br>`src/*`, CLI, procedural generators, 3D mesh exporters, shaders, web app | **[MIT License](LICENSE)** | **Unrestricted.** You may freely use, modify, distribute, fork, or incorporate the code into personal or commercial projects. |
+| **Original Font Specimen**<br>`dist/triglavian.otf` | **Copyright © 2018 CCP hf.**<br>All rights reserved | **Non-commercial community use** under CCP Games' *EVE Online* policies. |
+| **Generated Assets**<br>SVGs, WOFF2/WOFF, GLB, OBJ, STL, Typeface JSON | **Derivative of CCP Character IP** | **Free for non-commercial community projects.** See usage guidelines below. |
+
+### 🎨 Can the Generated Assets Be Freely Used?
+
+Because the Triglavian script and graphemes were designed by CCP Games as proprietary artistic assets for *EVE Online* (`Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`), all assets derived from those designs (vector outlines, webfonts, and 3D meshes) inherit that character copyright:
+
+- ✅ **Permitted (Free Community & Fan Use):**
+  - **Websites & Portals:** You may freely embed the webfonts (`.woff2`, `.woff`, `.css`) and SVGs on *EVE Online* corp/alliance websites, killboards, and community web applications.
+  - **Community Tools & Discord Bots:** Non-commercial decoders, translators, lore wikis, and analytical tools.
+  - **Media & Streaming:** In-game videos, Twitch stream overlays, wallpapers, and fan art.
+  - **Personal 3D Printing:** 3D printing glyphs for personal decoration, cosplay, hobby projects, or gifts.
+- ❌ **Not Permitted (Commercial Exploitation):**
+  - **No Commercial Asset Resale:** You may not sell the 3D meshes (`.glb`, `.obj`, `.stl`), font files, or vector files on 3D asset marketplaces (e.g., TurboSquid, CGTrader, Unity Asset Store).
+  - **No Commercial Merchandise:** You may not sell physical merchandise, apparel, or 3D-printed products featuring the glyphs on commercial storefronts (e.g., Etsy, Shopify) without CCP's explicit permission.
+  - **No Unrelated Commercial Games:** You may not use the Triglavian glyphs as unencumbered artwork in an unrelated commercial video game.
+

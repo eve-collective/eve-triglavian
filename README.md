@@ -4,7 +4,7 @@
 
 A modern **TypeScript** and **Three.js** computational geometry library, 2D vector asset generator, and interactive 3D Web Visualizer for the **Triglavian Collective** script from _EVE Online_.
 
-Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`) used by **Fenris Creations (FC)** (formerly CCP) to produce the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
+Derived directly from the canonical OpenType font specimen (`dist/triglavian.otf`, `Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`) created by **CCP Games (CCP hf.)**, which served as the basis for the historical grapheme decoding chart (`triglavian_grapheme_samples // crossreference TD-1`) by the **Arataka Research Consortium (ARC)**.
 
 ---
 
@@ -276,18 +276,22 @@ This project is free and open-source software built for the _EVE Online_ communi
 
 ## 🙏 Credits & Acknowledgments
 
+- **CCP Games (CCP hf.):** Original creators of the Triglavian typography, lore, and canonical OpenType font specimen (`Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.`).
 - **Arataka Research Consortium (ARC):** Deep appreciation to the Arataka Research Consortium for their monumental in-game cryptographic analysis, grapheme decoding, and documentation (`triglavian_grapheme_samples // crossreference TD-1`). Their work established the canonical foundation for Triglavian research across New Eden.
 
 ---
 
 ## ⚖️ Legal Disclaimer
 
-All _EVE Online_ materials, Triglavian emblems, graphemes, lore, and related intellectual property are the property of **Fenris Creations (FC)** (formerly CCP hf.).
+_EVE Online_, the EVE logo, Triglavian emblems, graphemes, lore, and all associated logos, designs, and character typography are the intellectual property of **CCP Games (CCP hf.)**.
 
-This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with Fenris Creations (FC) is implied.
+This repository is an unofficial, non-commercial community research and typography reconstruction project created for educational, analytical, and artistic purposes under fair-use principles. No endorsement by or affiliation with CCP Games is implied.
 
 ---
 
 ## 📄 License
 
-Distributed under the [MIT License](LICENSE).
+This repository uses a split licensing model:
+
+- **Software & Tooling (Code):** The TypeScript library, procedural geometry algorithms, 3D mesh exporters, shaders, and web applications are licensed under the [MIT License](LICENSE).
+- **Game Assets & Triglavian Typography:** The Triglavian script, character glyph geometry, and original OpenType font file (`dist/triglavian.otf`) are `Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.` Distributed for non-commercial community, fan-art, and educational purposes in accordance with CCP Games' community guidelines.

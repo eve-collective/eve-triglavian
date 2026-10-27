@@ -19,3 +19,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+### Third-Party Intellectual Property & Asset Notice
+
+The MIT license above applies strictly to the source code, computational geometry
+algorithms, 3D exporters, shaders, and web applications developed for this project.
+
+The Triglavian script, character designs, lore, and original OpenType font specimen
+(`dist/triglavian.otf`) are the intellectual property of CCP Games:
+
+    Original Characters Copyright (c) 2018 by CCP hf. All rights reserved.
+
+EVE Online, the EVE logo, and all related marks and logos are trademarks or registered
+trademarks of CCP hf. in the United States and other jurisdictions. This project is an
+independent, non-commercial community and fan research toolkit.
+
